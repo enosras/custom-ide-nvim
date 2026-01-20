@@ -27,53 +27,26 @@ return {
 	-- 	end
 	-- end
 	config = function()
-		local original_capabilities = {
-			textDocument = {
-				foldingRange = {
-					dynamicRegistration = true, --false
-					lineFoldingOnly = true, --true
-				},
-				-- might delete later
-				-- {
-				-- 	require("blink.cmp").get_lsp_capabilities(capabilities),
-				-- },
-			},
-		}
+		-- local original_capabilities = {
+		-- 	textDocument = {
+		-- 		foldingRange = {
+		-- 			dynamicRegistration = true, --false
+		-- 			lineFoldingOnly = true, --true
+		-- 		},
+		-- 		-- might delete later
+		-- 		-- {
+		-- 		-- 	require("blink.cmp").get_lsp_capabilities(capabilities),
+		-- 		-- },
+		-- 	},
+		-- },
 		local lspconfig = require("lspconfig")
+		local original_capabilities = vim.lsp.protocol.make_client_capabilities()
 		local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
 
 		lspconfig["lua_ls"].setup({ capabilities = capabilities })
 		lspconfig["clangd"].setup({ capabilities = capabilities })
 		lspconfig["pyright"].setup({ capabilities = capabilities })
 		lspconfig["gopls"].setup({ capabilities = capabilities })
-		-- my guess work at this point ---
-		--  just a line break for my own benefit ---
-		-- local add = MiniDeps.add
-		--
-		-- -- Add to current session (install if absent)
-		-- add({
-		-- 	source = "neovim/nvim-lspconfig",
-		-- 	-- Supply dependencies near target plugin
-		-- 	depends = { "williamboman/mason.nvim" },
-		-- })
-		--
-		-- add({
-		-- 	source = "nvim-treesitter/nvim-treesitter",
-		-- 	-- Use 'master' while monitoring updates in 'main'
-		-- 	checkout = "master",
-		-- 	monitor = "main",
-		-- 	-- Perform action after every checkout
-		-- 	hooks = {
-		-- 		post_checkout = function()
-		-- 			vim.cmd("TSUpdate")
-		-- 		end,
-		-- 	},
-		--	})
-		-- Possible to immediately execute code which depends on the added plugin
-		--	require("nvim-treesitter.configs").setup({
-		--		ensure_installed = { "lua", "vimdoc" },
-		--		highlight = { enable = true },
-		-- 	})
 	end,
 }
 -- old nvim-cmp options
