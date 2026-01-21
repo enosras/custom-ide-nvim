@@ -9,6 +9,7 @@ return {
 		"dmitmel/cmp-digraphs",
 		{ "L3MON4D3/LuaSnip", version = "v2.*" },
 		"onsails/lspkind.nvim",
+		"Kaiser-Yang/blink-cmp-git",
 	},
 	version = "1.*",
 	opts = {
@@ -78,8 +79,45 @@ return {
 
 		sources = {
 			compat = {},
-			default = { "lsp", "path", "snippets", "buffer", "emoji" },
+			default = { "lsp", "path", "snippets", "buffer", "emoji", "git" },
 			providers = {
+				-- git source
+				git = {
+					module = "blink-cmp-git",
+					name = "Git",
+					opts = {
+						commit = {
+							-- You may want to customize when it should be enabled
+							-- The default will enable this when `git` is found and `cwd` is in a git repository
+							-- enable = function() end
+							-- You may want to change the triggers
+							-- triggers = { ':' },
+						},
+						git_centers = {
+							github = {
+								-- Those below have the same fields with `commit`
+								-- Those features will be enabled when `git` and `gh` (or `curl`) are found and
+								-- remote contains `github.com`
+								-- issue = {
+								--     get_token = function() return '' end,
+								-- },
+								-- pull_request = {
+								--     get_token = function() return '' end,
+								-- },
+								-- mention = {
+								--     get_token = function() return '' end,
+								--     get_documentation = function(item)
+								--         local default = require('blink-cmp-git.default.github')
+								--             .mention.get_documentation(item)
+								--         default.get_token = function() return '' end
+								--         return default
+								--     end
+								-- }
+							},
+						},
+						-- options for the blink-cmp-git
+					},
+				},
 				-- og souces --
 				lsp = {
 					min_keyword_length = 2, -- Number of characters to trigger porvider
