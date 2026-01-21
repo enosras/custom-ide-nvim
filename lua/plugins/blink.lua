@@ -10,11 +10,25 @@ return {
 		{ "L3MON4D3/LuaSnip", version = "v2.*" },
 		"onsails/lspkind.nvim",
 		"Kaiser-Yang/blink-cmp-git",
+		{ "ribru17/blink-cmp-spell" },
+		-- {
+		-- 	"Kaiser-Yang/blink-cmp-dictionary",
+		-- 	dependencies = { "nvim-lua/plenary.nvim" },
+		-- },
 	},
 	version = "1.*",
+	---@module 'blink.cmp'
+	---@type blink.cmp.Config
 	opts = {
 		snippets = { preset = "luasnip" },
 		keymap = { preset = "default" },
+		cmdline = {
+			keymap = { preset = "inherit" },
+			completion = {
+				menu = { auto_show = true },
+				ghost_text = { enabled = true },
+			},
+		},
 		appearance = {
 			use_nvim_cmp_as_default = false,
 			nerd_font_variant = "mono",
@@ -24,6 +38,12 @@ return {
 		-- (Default) Only show the documentation popup when manually triggered
 		completion = {
 			accept = { auto_brackets = { enabled = true } },
+			list = {
+				selection = {
+					preselect = true,
+					auto_insert = false,
+				},
+			},
 			documentation = {
 				auto_show = true,
 				auto_show_delay_ms = 250,
@@ -34,11 +54,13 @@ return {
 				enabled = vim.g.ai_cmp,
 			},
 			menu = {
+				scrollbar = true,
 				border = "rounded",
 				draw = {
 					treesitter = { "lsp" },
 					columns = {
-						{ "kind_icon", "label", gap = 1 },
+						{ "kind_icon" },
+						{ "label", "label_description", gap = 1 },
 						{ "kind" },
 					},
 					components = {
@@ -68,20 +90,99 @@ return {
 		signature = { enabled = true, window = { border = "rounded" } },
 
 		sources = {
+			per_filetype = {
+				lua = { inherit_defaults = true, "lazydev" },
+			},
+			--  for compat sources --
 			compat = {},
-			default = { "lsp", "path", "snippets", "buffer", "emoji", "git", "digraphs" },
+			-- the og defaults entry --
+			default = { "lsp", "path", "snippets", "buffer", "emoji", "git", "digraphs", "spell" },
 			providers = {
+				-- dictionary --
+				-- dictionary = {
+				-- 	module = "blink-cmp-dictionary",
+				-- 	name = "Dict",
+				-- 	-- Make sure this is at least 2.
+				-- 	-- 3 is recommended
+				-- 	min_keyword_length = 3,
+				-- 	opts = {
+				-- 		-- options for blink-cmp-dictionary
+				-- 	},
+				-- },
+
 				-- git source
 				git = {
 					module = "blink-cmp-git",
 					name = "Git",
+					--- @module 'blink-cmp-git'
+					--- @type blink-cmp-git.Options
+
 					opts = {
 						commit = {
+							insert_text_trailing = " ",
 							-- You may want to customize when it should be enabled
 							-- The default will enable this when `git` is found and `cwd` is in a git repository
 							-- enable = function() end
 							-- You may want to change the triggers
 							-- triggers = { ':' },
+							--#
+							-- use the first 7 hash and the first line of the commit message as the label
+							get_label = function(item)
+								-- For `octo.nvim` users, the `item` is a table
+								if type(item) == "table" then
+									return item.sha:sub(1, 7) .. " " .. item.commit.message:match("([^\n]*)")
+								end
+								return item:match("commit ([^\n]*)"):sub(1, 7) .. " " .. item:match("\n\n%s*([^\n]*)")
+							end,
+							-- use 'Commit' as the kind name
+							get_kind_name = function(_)
+								return "Commit"
+							end,
+							-- use the first 7 hash as the insert text
+							get_insert_text = function(item)
+								-- For `octo.nvim` users, the `item` is a table
+								if type(item) == "table" then
+									return item.sha:sub(1, 7)
+								end
+								return item:match("commit ([^\n]*)"):sub(1, 7)
+							end,
+							-- use the whole commit message as the documentation
+							get_documentation = function(item)
+								-- For `octo.nvim` users, the `item` is a table
+								if type(item) == "table" then
+									return "commit "
+										.. item.sha
+										.. "\n"
+										.. "Author:     "
+										.. item.commit.author.name
+										.. " <"
+										.. item.commit.author.email
+										.. ">\n"
+										.. "AuthorDate: "
+										.. item.commit.author.date
+										.. "\n"
+										.. "Commit:     "
+										.. item.commit.committer.name
+										.. " <"
+										.. item.commit.committer.email
+										.. ">\n"
+										.. "CommitDate: "
+										.. item.commit.committer.date
+										.. "\n"
+										.. item.commit.message
+								end
+								return item
+								-- or you can use `blink-cmp-git.DocumentationCommand` to get the documentation
+								-- return {
+								--     -- the command to get the documentation
+								--     get_command = '',
+								--     get_command_args = {}
+								--     -- how to resolve the output
+								--     resolve_documentation = function(output) return output end
+								-- }
+								-- or return nil to disable the documentation
+								-- return nil
+							end,
 						},
 						git_centers = {
 							github = {
@@ -111,13 +212,25 @@ return {
 				},
 				-- old guard (OG) sources --
 				lsp = {
+					name = "LSP",
+					fallbacks = {},
+					override = nil,
+					module = "blink.cmp.sources.lsp",
+					opts = {},
 					min_keyword_length = 2, -- Number of characters to trigger porvider
 					score_offset = 0, -- Boost/penalize the score of the items
+					enabled = true, -- Whether or not to enable the provider
+					async = false, -- Whether we should show the completions before this provider returns, without waiting for it
+					timeout_ms = 2000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
+					transform_items = nil, -- Function to transform the items before they're returned
+					should_show_items = true, -- Whether or not to show the items
+					max_items = nil,
 				},
 				path = {
 					min_keyword_length = 0,
 				},
 				snippets = {
+					-- friendly_snippets = false,
 					min_keyword_length = 2,
 				},
 				buffer = {
@@ -130,7 +243,7 @@ return {
 					module = "lazydev.integrations.blink",
 					score_offset = 100, -- show at a higher priority than lsp
 				},
-				--end here
+				-- lazy dev ends here
 				emoji = {
 					module = "blink-emoji",
 					name = "Emoji",
@@ -160,6 +273,29 @@ return {
 						cache_digraphs_on_start = true,
 					},
 				},
+				-- spell source --
+				spell = {
+					name = "Spell",
+					module = "blink-cmp-spell",
+					opts = {
+
+						-- EXAMPLE: Only enable source in `@spell` captures, and disable it
+						-- in `@nospell` captures.
+						-- enable_in_context = function()
+						-- 	local curpos = vim.api.nvim_win_get_cursor(0)
+						-- 	local captures = vim.treesitter.get_captures_at_pos(0, curpos[1] - 1, curpos[2] - 1)
+						-- 	local in_spell_capture = false
+						-- 	for _, cap in ipairs(captures) do
+						-- 		if cap.capture == "spell" then
+						-- 			in_spell_capture = true
+						-- 		elseif cap.capture == "nospell" then
+						-- 			return false
+						-- 		end
+						-- 	end
+						-- 	return in_spell_capture
+						-- end,
+					},
+				},
 
 				-- sql provider, might delete later
 				sql = {
@@ -184,12 +320,9 @@ return {
 						)
 					end,
 				},
-
 				-- closing providers now
-				--
 			},
 		},
-
 		-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
 		-- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
 		-- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
