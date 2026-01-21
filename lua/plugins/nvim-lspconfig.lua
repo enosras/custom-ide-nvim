@@ -14,6 +14,11 @@ return {
 			gopls = {},
 			pyright = {},
 			clangd = {},
+			vimls = {},
+			perlnavigator = {},
+			rust_analyzer = {},
+			html = {},
+			ruby_lsp = {},
 		},
 	},
 
@@ -47,6 +52,11 @@ return {
 		lspconfig["clangd"].setup({ capabilities = capabilities })
 		lspconfig["pyright"].setup({ capabilities = capabilities })
 		lspconfig["gopls"].setup({ capabilities = capabilities })
+		lspconfig["vimls"].setup({ capabilities = capabilities })
+		lspconfig["perlnavigator"].setup({ capabilities = capabilities })
+		lspconfig["rust_analyzer"].setup({ capabilities = capabilities })
+		lspconfig["html"].setup({ capabilities = capabilities })
+		lspconfig["ruby_lsp"].setup({ capabilities = capabilities })
 	end,
 }
 -- old nvim-cmp options

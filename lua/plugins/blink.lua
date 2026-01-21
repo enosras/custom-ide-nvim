@@ -13,17 +13,7 @@ return {
 	},
 	version = "1.*",
 	opts = {
-		-- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
-		-- 'super-tab' for mappings similar to vscode (tab to accept)
-		-- 'enter' for enter to accept
-		-- 'none' for no mappings
-		-- All presets have the following mappings:
-		-- C-space: Open menu or open docs if already open
-		-- C-n/C-p or Up/Down: Select next/previous item
-		-- C-e: Hide menu
-		-- C-k: Toggle signature help (if signature.enabled = true)
-		--
-		-- See :h blink-cmp-config-keymap for defining your own keymap
+		snippets = { preset = "luasnip" },
 		keymap = { preset = "default" },
 		appearance = {
 			use_nvim_cmp_as_default = false,
@@ -79,7 +69,7 @@ return {
 
 		sources = {
 			compat = {},
-			default = { "lsp", "path", "snippets", "buffer", "emoji", "git" },
+			default = { "lsp", "path", "snippets", "buffer", "emoji", "git", "digraphs" },
 			providers = {
 				-- git source
 				git = {
@@ -109,6 +99,7 @@ return {
 								--     get_documentation = function(item)
 								--         local default = require('blink-cmp-git.default.github')
 								--             .mention.get_documentation(item)
+								--
 								--         default.get_token = function() return '' end
 								--         return default
 								--     end
@@ -118,7 +109,7 @@ return {
 						-- options for the blink-cmp-git
 					},
 				},
-				-- og souces --
+				-- old guard (OG) sources --
 				lsp = {
 					min_keyword_length = 2, -- Number of characters to trigger porvider
 					score_offset = 0, -- Boost/penalize the score of the items
@@ -130,7 +121,7 @@ return {
 					min_keyword_length = 2,
 				},
 				buffer = {
-					min_keyword_length = 5,
+					min_keyword_length = 4,
 					max_items = 5,
 				},
 				-- lazy dev --
@@ -139,7 +130,6 @@ return {
 					module = "lazydev.integrations.blink",
 					score_offset = 100, -- show at a higher priority than lsp
 				},
-
 				--end here
 				emoji = {
 					module = "blink-emoji",
@@ -155,11 +145,13 @@ return {
 						)
 					end,
 				},
+
 				-- create provider
 				digraphs = {
 					-- IMPORTANT: use the same name as you would for nvim-cmp
 					name = "digraphs",
 					module = "blink.compat.source",
+					enabled = false,
 
 					-- all blink.cmp source config options work as normal:
 					score_offset = -3,
