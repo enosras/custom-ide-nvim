@@ -1,6 +1,0 @@
-services:
-name: web
-image: image
-
-volumes:
-  - pgt
