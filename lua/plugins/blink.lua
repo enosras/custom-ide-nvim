@@ -12,9 +12,18 @@ return {
 		"Kaiser-Yang/blink-cmp-git",
 	},
 	version = "1.*",
+	---@module 'blink.cmp'
+	---@type blink.cmp.Config
 	opts = {
 		snippets = { preset = "luasnip" },
 		keymap = { preset = "default" },
+		cmdline = {
+			keymap = { preset = "inherit" },
+			completion = {
+				menu = { auto_show = true },
+				ghost_text = { enabled = true },
+			},
+		},
 		appearance = {
 			use_nvim_cmp_as_default = false,
 			nerd_font_variant = "mono",
@@ -24,6 +33,12 @@ return {
 		-- (Default) Only show the documentation popup when manually triggered
 		completion = {
 			accept = { auto_brackets = { enabled = true } },
+			list = {
+				selection = {
+					preselect = true,
+					auto_insert = false,
+				},
+			},
 			documentation = {
 				auto_show = true,
 				auto_show_delay_ms = 250,
@@ -34,11 +49,13 @@ return {
 				enabled = vim.g.ai_cmp,
 			},
 			menu = {
+				scrollbar = true,
 				border = "rounded",
 				draw = {
 					treesitter = { "lsp" },
 					columns = {
-						{ "kind_icon", "label", gap = 1 },
+						{ "kind_icon" },
+						{ "label", "label_description", gap = 1 },
 						{ "kind" },
 					},
 					components = {
@@ -68,7 +85,12 @@ return {
 		signature = { enabled = true, window = { border = "rounded" } },
 
 		sources = {
+			per_filetype = {
+				lua = { inherit_defaults = true, "lazydev" },
+			},
+			--  for compat sources --
 			compat = {},
+			-- the og defaults entry --
 			default = { "lsp", "path", "snippets", "buffer", "emoji", "git", "digraphs" },
 			providers = {
 				-- git source
@@ -130,7 +152,7 @@ return {
 					module = "lazydev.integrations.blink",
 					score_offset = 100, -- show at a higher priority than lsp
 				},
-				--end here
+				-- lazy dev ends here
 				emoji = {
 					module = "blink-emoji",
 					name = "Emoji",
@@ -184,12 +206,9 @@ return {
 						)
 					end,
 				},
-
 				-- closing providers now
-				--
 			},
 		},
-
 		-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
 		-- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
 		-- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
