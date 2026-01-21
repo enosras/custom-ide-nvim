@@ -5,6 +5,7 @@ return {
 		{ "mason-org/mason.nvim", opts = {} },
 		"mason-org/mason-lspconfig.nvim",
 		{ "j-hui/fidget.nvim", opts = {} },
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
 	},
 	lazy = false,
 	-- in case you want something to delete later ---
@@ -13,7 +14,38 @@ return {
 			lua_ls = {},
 			gopls = {},
 			pyright = {},
-			clangd = {},
+			clangd = {
+				root_markers = {
+					"compile_commands.json",
+					"compile_flags.txt",
+					"configure.ac", -- AutoTools
+					"Makefile",
+					"configure.ac",
+					"configure.in",
+					"config.h.in",
+					"meson.build",
+					"meson_options.txt",
+					"build.ninja",
+					".git",
+				},
+				capabilities = {
+					offsetEncoding = { "utf-16" },
+				},
+				cmd = {
+					"clangd",
+					"--background-index",
+					"--clang-tidy",
+					"--header-insertion=iwyu",
+					"--completion-style=detailed",
+					"--function-arg-placeholders",
+					"--fallback-style=llvm",
+				},
+				init_options = {
+					usePlaceholders = true,
+					completeUnimported = true,
+					clangdFileStatus = true,
+				},
+			},
 			vimls = {},
 			perlnavigator = {},
 			rust_analyzer = {},
@@ -44,6 +76,16 @@ return {
 		-- 		-- },
 		-- 	},
 		-- },
+
+		require("mason").setup()
+		require("mason-tool-installer").setup({
+			ensure_installed = {
+				"lua-language-server",
+				"pyright",
+				"eslint",
+				{ "prettier", version = "3.0.0" },
+			},
+		})
 		local lspconfig = require("lspconfig")
 		local original_capabilities = vim.lsp.protocol.make_client_capabilities()
 		local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
