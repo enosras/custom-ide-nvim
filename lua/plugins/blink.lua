@@ -11,10 +11,10 @@ return {
 		"onsails/lspkind.nvim",
 		"Kaiser-Yang/blink-cmp-git",
 		{ "ribru17/blink-cmp-spell" },
-		-- {
-		-- 	"Kaiser-Yang/blink-cmp-dictionary",
-		-- 	dependencies = { "nvim-lua/plenary.nvim" },
-		-- },
+		{
+			"Kaiser-Yang/blink-cmp-dictionary",
+			dependencies = { "nvim-lua/plenary.nvim" },
+		},
 	},
 	version = "1.*",
 	---@module 'blink.cmp'
@@ -96,19 +96,21 @@ return {
 			--  for compat sources --
 			compat = {},
 			-- the og defaults entry --
-			default = { "lsp", "path", "snippets", "buffer", "emoji", "git", "digraphs", "spell" },
+			default = { "lsp", "path", "snippets", "buffer", "emoji", "git", "digraphs", "spell", "dictionary" },
 			providers = {
 				-- dictionary --
-				-- dictionary = {
-				-- 	module = "blink-cmp-dictionary",
-				-- 	name = "Dict",
-				-- 	-- Make sure this is at least 2.
-				-- 	-- 3 is recommended
-				-- 	min_keyword_length = 3,
-				-- 	opts = {
-				-- 		-- options for blink-cmp-dictionary
-				-- 	},
-				-- },
+				dictionary = {
+					module = "blink-cmp-dictionary",
+					name = "Dict",
+					-- Make sure this is at least 2.
+					-- 3 is recommended
+					min_keyword_length = 3,
+					opts = {
+						dictionary_files = { vim.fn.expand("~/.config/nvim/dictionary/words.txt") },
+						dictionary_directories = { vim.fn.expand("~/.config/nvim/dictionary") },
+						-- options for blink-cmp-dictionary
+					},
+				},
 
 				-- git source
 				git = {
