@@ -10,7 +10,7 @@ return {
 					"c",
 					"markdown",
 					"lua",
-					"vim",
+					"vimscript",
 					"go",
 					"javascript",
 					"ruby",

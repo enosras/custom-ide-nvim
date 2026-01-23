@@ -11,8 +11,34 @@ return {
 	-- in case you want something to delete later ---
 	opts = {
 		servers = {
-			lua_ls = {},
-			gopls = {},
+			lua_ls = {
+				-- on_attach = on_attach,
+				settings = {
+					Lua = {
+						runtime = {
+							-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+							version = "LuaJIT",
+							path = vim.split(package.path, ";"),
+						},
+						diagnostics = {
+							-- Get the language server to recognize the `vim` global
+							globals = { "vim" },
+						},
+						workspace = {
+							-- Make the server aware of Neovim runtime files and plugins
+							library = { vim.env.VIMRUNTIME },
+							checkThirdParty = false,
+						},
+						telemetry = {
+							enable = false,
+						},
+					},
+				},
+			},
+			gopls = {
+				cmd = { "gopls" },
+				filetypes = { "go", "gomod", "gowork", "gotmpl" },
+			},
 			pyright = {},
 			clangd = {
 				root_markers = {
@@ -53,7 +79,6 @@ return {
 			ruby_lsp = {},
 		},
 	},
-
 	-- config = function(_, opts)
 	-- 	local lspconfig = require("lspconfig")
 	-- 	for server, config in pairs(opts.servers) do
@@ -79,6 +104,7 @@ return {
 		require("mason").setup()
 		require("mason-tool-installer").setup({
 			ensure_installed = {
+				"vimls",
 				"lua-language-server",
 				"pyright",
 				"eslint",
@@ -88,7 +114,6 @@ return {
 		local lspconfig = require("lspconfig")
 		local original_capabilities = vim.lsp.protocol.make_client_capabilities()
 		local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
-
 		lspconfig["lua_ls"].setup({ capabilities = capabilities })
 		lspconfig["clangd"].setup({ capabilities = capabilities })
 		lspconfig["pyright"].setup({ capabilities = capabilities })
