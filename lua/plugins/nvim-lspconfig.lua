@@ -38,6 +38,8 @@ return {
 			gopls = {
 				cmd = { "gopls" },
 				filetypes = { "go", "gomod", "gowork", "gotmpl" },
+				staticcheck = true,
+				gofumpt = true,
 			},
 			pyright = {},
 			clangd = {
@@ -74,7 +76,31 @@ return {
 			},
 			vimls = {},
 			perlnavigator = {},
-			rust_analyzer = {},
+			rust_analyzer = {
+				on_attach = function(client, bufnr)
+					vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+				end,
+				settings = {
+					["rust-analyzer"] = {
+						imports = {
+							granularity = {
+								group = "module",
+							},
+							prefix = "self",
+						},
+						cargo = {
+							allFeatures = true,
+							buildScripts = {
+								enable = true,
+							},
+						},
+						checkOnSave = { command = "clippy" },
+						procMacro = {
+							enable = true,
+						},
+					},
+				},
+			},
 			html = {},
 			ruby_lsp = {},
 		},
@@ -112,7 +138,9 @@ return {
 			},
 		})
 		local lspconfig = require("lspconfig")
+
 		local original_capabilities = vim.lsp.protocol.make_client_capabilities()
+		-- local original_capabilities = vim.lsp.protocol.make_client_capabilities()
 		local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
 		lspconfig["lua_ls"].setup({ capabilities = capabilities })
 		lspconfig["clangd"].setup({ capabilities = capabilities })
@@ -123,6 +151,12 @@ return {
 		lspconfig["rust_analyzer"].setup({ capabilities = capabilities })
 		lspconfig["html"].setup({ capabilities = capabilities })
 		lspconfig["ruby_lsp"].setup({ capabilities = capabilities })
+
+		-- maybe delete if it fails --
+		vim.keymap.set("n", "HH", vim.lsp.buf.hover, {})
+		vim.keymap.set("n", "RR", vim.lsp.buf.references, {})
+		vim.keymap.set("n", "DD", vim.lsp.buf.definition, {})
+		vim.keymap.set("n", "CA", vim.lsp.buf.code_action, {})
 	end,
 }
 -- old nvim-cmp options
