@@ -77,6 +77,7 @@ return {
 			vimls = {},
 			perlnavigator = {},
 			rust_analyzer = {
+				filetypes = { "rs" },
 				on_attach = function(client, bufnr)
 					vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 				end,

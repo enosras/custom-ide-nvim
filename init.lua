@@ -1,3 +1,4 @@
+vim.opt.termguicolors = true
 require("config.lazy")
 vim.cmd("set number")
 vim.cmd("filetype plugin indent on")
@@ -9,7 +10,7 @@ vim.opt.tabstop = 4
 
 -- my additions
 vim.opt.softtabstop = 4
-vim.opt.termguicolors = true
+-- vim.opt.termguicolors = true
 
 --Had included in the plugin for neovim-lsp
 --vim.lsp.enable('pyright')
