@@ -6,6 +6,7 @@ return {
 		"mason-org/mason-lspconfig.nvim",
 		{ "j-hui/fidget.nvim", opts = {} },
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		"onsails/lspkind.nvim",
 	},
 	lazy = false,
 	-- in case you want something to delete later ---
@@ -141,7 +142,11 @@ return {
 		local lspconfig = require("lspconfig")
 
 		local original_capabilities = vim.lsp.protocol.make_client_capabilities()
-		-- local original_capabilities = vim.lsp.protocol.make_client_capabilities()
+		original_capabilities.textDocument = original_capabilities.textDocument or {}
+		original_capabilities.textDocument.foldingRange = {
+			dynamicRegistration = true,
+			lineFoldingOnly = true,
+		}
 		local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
 		lspconfig["lua_ls"].setup({ capabilities = capabilities })
 		lspconfig["clangd"].setup({ capabilities = capabilities })
@@ -152,7 +157,6 @@ return {
 		lspconfig["rust_analyzer"].setup({ capabilities = capabilities })
 		lspconfig["html"].setup({ capabilities = capabilities })
 		lspconfig["ruby_lsp"].setup({ capabilities = capabilities })
-
 		-- maybe delete if it fails --
 		vim.keymap.set("n", "HH", vim.lsp.buf.hover, {})
 		vim.keymap.set("n", "RR", vim.lsp.buf.references, {})
@@ -160,22 +164,3 @@ return {
 		vim.keymap.set("n", "CA", vim.lsp.buf.code_action, {})
 	end,
 }
--- old nvim-cmp options
---   config = function()
--- 		vim.lsp.enable("jsonls")
--- 		vim.lsp.enable("perlnavigator")
--- 		vim.lsp.enable("yamlls")
--- 		vim.lsp.enable("zls")
--- 		vim.lsp.enable("ruby_lsp")
--- 		vim.lsp.enable("pyright")
--- 		vim.lsp.enable("lua_ls")
--- 		vim.lsp.enable("clangd")
--- 		vim.lsp.enable("gopls")
--- 		vim.lsp.enable("html")
--- 		vim.lsp.enable("vimls")
--- 		vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
--- 		vim.keymap.set("n", "L", vim.lsp.buf.references, {})
--- 		vim.keymap.set("n", "D", vim.lsp.buf.definition, {})
--- 		vim.keymap.set("n", "P", vim.lsp.buf.code_action, {})
--- 	end,
---}
