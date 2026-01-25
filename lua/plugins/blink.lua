@@ -11,6 +11,7 @@ return {
 		"onsails/lspkind.nvim",
 		"Kaiser-Yang/blink-cmp-git",
 		{ "ribru17/blink-cmp-spell" },
+		{ "xzbdmw/colorful-menu.nvim" },
 		{
 			"Kaiser-Yang/blink-cmp-dictionary",
 			dependencies = { "nvim-lua/plenary.nvim" },
@@ -54,15 +55,47 @@ return {
 			ghost_text = {
 				enabled = vim.g.ai_cmp,
 			},
+			-- menu colorful option --
+			-- menu = {
+			-- 	draw = {
+			-- 		-- We don't need label_description now because label and label_description are already
+			-- 		-- combined together in label by colorful-menu.nvim.
+			-- 		columns = { { "kind_icon" }, { "label", gap = 1 } },
+			-- 		components = {
+			-- 			label = {
+			-- 				text = function(ctx)
+			-- 					return require("colorful-menu").blink_components_text(ctx)
+			-- 				end,
+			-- 				highlight = function(ctx)
+			-- 					return require("colorful-menu").blink_components_highlight(ctx)
+			-- 				end,
+			-- 			},
+			-- 		},
+			-- 	},
+			-- },
+			-- end of the experimental feature ---
 			menu = {
 				scrollbar = true,
 				border = "rounded",
 				draw = {
 					treesitter = { "lsp" },
+					--columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "kind", "source_name" } },
+					-- components = {
+					-- 	label = {
+					-- 		text = function(ctx)
+					-- 			return require("colorful-menu").blink_components_text(ctx)
+					-- 		end,
+					-- 		highlight = function(ctx)
+					-- 			return require("colorful-menu").blink_components_highlight(ctx)
+					-- 		end,
+					-- 	},
+					-- },
+
 					columns = {
-						{ "kind_icon" },
-						{ "label", "label_description", gap = 1 },
-						{ "kind" },
+						{ "kind_icon", gap = 1 },
+						{ "label", "label_description", gap = 1, width = { fill = true } }, --max = 50 }
+						{ "kind", "source_name" },
+						-- width = { fill = true, max = 50 } this is to be edited depending on needs
 					},
 					components = {
 						kind_icon = {
