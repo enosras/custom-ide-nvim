@@ -98,13 +98,20 @@ return {
 						-- width = { fill = true, max = 50 } this is to be edited depending on needs
 					},
 					components = {
+						-- kind_icon = {
+						-- 	text = function(item)
+						-- 		local kind = require("lspkind").symbol_map[item.kind] or ""
+						-- 		return kind .. " "
+						-- 	end,
+						-- 	highlight = "CmpItemKind",
+						-- },
+						-- kind icon opt 2 --
 						kind_icon = {
-							text = function(item)
-								local kind = require("lspkind").symbol_map[item.kind] or ""
-								return kind .. " "
+							text = function(ctx)
+								return require("lspkind").symbol_map[ctx.kind] or ""
 							end,
-							highlight = "CmpItemKind",
 						},
+						-- ends here
 						label = {
 							text = function(item)
 								return item.label
