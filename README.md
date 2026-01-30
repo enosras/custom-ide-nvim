@@ -15,6 +15,11 @@ SPECIAL THANKS:
 @StefanBoca
 @saghen
 @dmitmel
-@
+@folke
+@wez
+@stevearc
+@MrJakob
+@Jakobwesthoff
+@jonkero9
 
 This here is my set-up:

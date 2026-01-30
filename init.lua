@@ -15,3 +15,24 @@ vim.opt.softtabstop = 4
 --Had included in the plugin for neovim-lsp
 --vim.lsp.enable('pyright')
 --vim.lsp.enable('lua_ls)
+-- --- -------------- -----
+-- require set-ups -------
+-- ---- --------- --------
+require("luatab").setup({
+
+	title = function()
+		return ""
+	end,
+	modified = function()
+		return ""
+	end,
+	windowCount = function()
+		return ""
+	end,
+	devicon = function()
+		return ""
+	end,
+	separator = function()
+		return ""
+	end,
+})
