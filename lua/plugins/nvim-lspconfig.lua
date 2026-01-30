@@ -11,6 +11,8 @@ return {
 	lazy = false,
 	-- in case you want something to delete later ---
 	opts = {
+		format_notify = true,
+		inlay_hints = { enabled = false },
 		servers = {
 			lua_ls = {
 				-- on_attach = on_attach,
@@ -105,8 +107,14 @@ return {
 			},
 			html = {},
 			ruby_lsp = {},
+			bashls = {
+
+				filetypes = { "sh", "zsh", "bash" },
+			},
 		},
 	},
+	--vim.o.shell = "/bin/zsh"  -- Or "/bin/bash" or whichever path your shell is located
+
 	-- config = function(_, opts)
 	-- 	local lspconfig = require("lspconfig")
 	-- 	for server, config in pairs(opts.servers) do
@@ -132,6 +140,7 @@ return {
 		require("mason").setup()
 		require("mason-tool-installer").setup({
 			ensure_installed = {
+				"bashls",
 				"vimls",
 				"lua-language-server",
 				"pyright",
@@ -157,6 +166,8 @@ return {
 		lspconfig["rust_analyzer"].setup({ capabilities = capabilities })
 		lspconfig["html"].setup({ capabilities = capabilities })
 		lspconfig["ruby_lsp"].setup({ capabilities = capabilities })
+		lspconfig["bashls"].setup({ capabilities = capabilities })
+
 		-- maybe delete if it fails --
 		vim.keymap.set("n", "HH", vim.lsp.buf.hover, {})
 		vim.keymap.set("n", "RR", vim.lsp.buf.references, {})

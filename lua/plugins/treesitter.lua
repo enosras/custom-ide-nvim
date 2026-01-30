@@ -18,6 +18,7 @@ return {
 					"html",
 					"rust",
 					"cpp",
+					"bash",
 				},
 				-- sync_install = true,
 				auto_install = true,
