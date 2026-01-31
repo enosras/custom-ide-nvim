@@ -1,7 +1,7 @@
 WELCOME TO MY NVIM/IDE CONFIGURATION
 
 HISTORY
-When I was a boy, in some backwood village, meeting the cyberworld from the dust, the programming bug bit me. But there was a problem. I had no access to computers. And then came the question of programming environment, the applications that make editing of source code possible. I thought these magical tools incredible. And I inadvertently stumbled on the NVIM community, and the tooling community in general. 
+When I was a boy, grwoing up in an East African city, meeting the cyberworld from the dust, the programming bug bit me. But there was a problem. I had no access to computers. And then came the question of programming environment, the applications that make editing of source code possible. I thought these magical tools incredible. And I inadvertently stumbled on the NVIM community, and the tooling community in general. 
 
 Apart from that, I have also followed the Zsh community, expanding into the oh-my-zsh emulator movement. 
 
@@ -15,6 +15,12 @@ SPECIAL THANKS:
 @StefanBoca
 @saghen
 @dmitmel
-@
+@folke
+@wez
+@stevearc
+@MrJakob
+@Jakobwesthoff
+@jonkero9
+@echasnovski
 
 This here is my set-up:
