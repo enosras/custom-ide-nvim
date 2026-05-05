@@ -30,6 +30,8 @@ return {
 				"ruby_lsp",
 				"jsonls",
 				"perlnavigator",
+				"ansiblels",
+				"yamlls",
 			},
 			handlers = {
 				function(server_name)
@@ -45,7 +47,7 @@ return {
 	end,
 }
 
---#region Old config
+-- #region Old config
 -- return {
 -- "mason-org/mason-lspconfig.nvim",
 -- dependencies = {
@@ -72,4 +74,4 @@ return {
 --     require("mason-lspconfig").setup(opts)
 -- end,
 -- }
---#endregion
+-- #endregion

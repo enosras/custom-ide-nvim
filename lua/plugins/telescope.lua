@@ -1,4 +1,11 @@
-return {}
+return {
+	{
+		"NotAShelf/direnv.nvim",
+		config = function()
+			require("direnv").setup({})
+		end,
+	},
+}
 --
 -- 	--  {
 -- 	--vim.ui.select({ "apple", "banana", "cherry" }, { prompt = "Pick fruit:" }, function(choice)

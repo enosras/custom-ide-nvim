@@ -44,6 +44,7 @@ return {
 				staticcheck = true,
 				gofumpt = true,
 			},
+			kotlin_language_server = {},
 			pyright = {},
 			clangd = {
 				root_markers = {
@@ -105,7 +106,69 @@ return {
 					},
 				},
 			},
+			yamlls = {
+
+				-- Have to add this for yamlls to understand that we support line folding
+				capabilities = {
+					textDocument = {
+						foldingRange = {
+							dynamicRegistration = false,
+							lineFoldingOnly = true,
+						},
+					},
+				},
+				-- lazy-load schemastore when needed
+				before_init = function(_, new_config)
+					new_config.settings.yaml.schemas = vim.tbl_deep_extend(
+						"force",
+						new_config.settings.yaml.schemas or {},
+						require("schemastore").yaml.schemas()
+					)
+				end,
+				settings = {
+					redhat = { telemetry = { enabled = false } },
+					yaml = {
+						keyOrdering = false,
+						format = {
+							enable = true,
+						},
+						validate = true,
+						schemaStore = {
+							-- Must disable built-in schemaStore support to use
+							-- schemas from SchemaStore.nvim plugin
+							enable = false,
+							-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+							url = "",
+						},
+					},
+				},
+			},
 			html = {},
+			ansiblels = {
+				cmd = { "ansible-language-server", "--stdio" },
+				filetypes = { "yaml.ansible" },
+				root_markers = { "ansible.cfg", ".ansible-lint" },
+				settings = {
+					ansible = {
+						python = {
+							interpreterPath = "python",
+						},
+						ansible = {
+							path = "ansible",
+						},
+						executionEnvironment = {
+							enabled = false,
+						},
+						validation = {
+							enabled = true,
+							lint = {
+								enabled = true,
+								path = "ansible-lint",
+							},
+						},
+					},
+				},
+			},
 			ruby_lsp = {},
 			bashls = {
 
@@ -146,6 +209,8 @@ return {
 				"pyright",
 				"eslint",
 				{ "prettier", version = "3.0.0" },
+				"ansible-language-server",
+				"yamlls",
 			},
 		})
 		local lspconfig = require("lspconfig")
@@ -167,6 +232,9 @@ return {
 		lspconfig["html"].setup({ capabilities = capabilities })
 		lspconfig["ruby_lsp"].setup({ capabilities = capabilities })
 		lspconfig["bashls"].setup({ capabilities = capabilities })
+		lspconfig["ansiblels"].setup({ capabilities = capabilities })
+		lspconfig["yamlls"].setup({ capabilities = capabilities })
+		lspconfig["kotlin"].setup({ capabilities = capabilities })
 
 		-- maybe delete if it fails --
 		vim.keymap.set("n", "HH", vim.lsp.buf.hover, {})
