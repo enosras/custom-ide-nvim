@@ -14,6 +14,21 @@ return {
 		format_notify = true,
 		inlay_hints = { enabled = false },
 		servers = {
+			vtsls = {
+				filetypes = {
+					"javascript",
+					"javascriptreact",
+					"javascript.jsx",
+					"typescript",
+					"typescriptreact",
+					"typescript.tsx",
+				},
+				settings = {
+					javascript = {
+						suggest = { completeFunctionCalls = true },
+					},
+				},
+			},
 			lua_ls = {
 				-- on_attach = on_attach,
 				settings = {
@@ -147,7 +162,7 @@ return {
 			ansiblels = {
 				cmd = { "ansible-language-server", "--stdio" },
 				filetypes = { "yaml.ansible" },
-				root_markers = { "ansible.cfg", ".ansible-lint" },
+				root_markers = { "ansible.cfg", ".ansible-lint", ".git", "playbook.yml" },
 				settings = {
 					ansible = {
 						python = {
@@ -170,8 +185,21 @@ return {
 				},
 			},
 			ruby_lsp = {},
-			bashls = {
+			terraformls = {},
 
+			cfn_lsp = {
+				cmd = {
+					"node",
+					vim.fn.expand("$HOME") .. "/workspace/cloudformation-languageserver/out/server.js",
+					"--stdio",
+				},
+				filetypes = { "template.yaml", "template.json", "serverless.yml", ".cfnlintrc" },
+				settings = { cloudformation = {} },
+			},
+
+			hclls = {},
+			bashls = {
+				cmd = { "bash-language-server", "start" },
 				filetypes = { "sh", "zsh", "bash" },
 			},
 		},
@@ -187,7 +215,7 @@ return {
 	-- 		lspconfig[server].setup(config)
 	-- 	end
 	-- end
-	config = function()
+	config = function(_, opts)
 		-- local original_capabilities = {
 		-- 	textDocument = {
 		-- 		foldingRange = {
@@ -203,14 +231,21 @@ return {
 		require("mason").setup()
 		require("mason-tool-installer").setup({
 			ensure_installed = {
-				"bashls",
+				"terraform-ls",
+				"tflint",
+				"html",
+				"vtsls",
+				"bash-language-server",
 				"vimls",
 				"lua-language-server",
 				"pyright",
 				"eslint",
 				{ "prettier", version = "3.0.0" },
 				"ansible-language-server",
+				"ansible-lint",
 				"yamlls",
+				"hclfmt",
+				"cfn-lint",
 			},
 		})
 		local lspconfig = require("lspconfig")
@@ -234,7 +269,21 @@ return {
 		lspconfig["bashls"].setup({ capabilities = capabilities })
 		lspconfig["ansiblels"].setup({ capabilities = capabilities })
 		lspconfig["yamlls"].setup({ capabilities = capabilities })
-		lspconfig["kotlin"].setup({ capabilities = capabilities })
+		lspconfig["kotlin_language_server"].setup({ capabilities = capabilities })
+		lspconfig["vtsls"].setup({ capabilities = capabilities })
+		lspconfig["html"].setup({ capabilities = capabilities })
+		lspconfig["terraformls"].setup({ capabilities = capabilities })
+		lspconfig["hclls"].setup({ capabilities = capabilities })
+		-- lspconfig["cfn-lint"].setup({ capabilities = capabilities })
+
+		-- some additions if the lsp seem to be failing
+
+		--       for server_name, server_config in pairs(opts.servers or {}) do
+		-- 	server_config = vim.tbl_deep_extend("force", {}, server_config, {
+		-- 		capabilities = require("blink.cmp").get_lsp_capabilities(server_config.capabilities or capabilities),
+		-- 	})
+		-- 	lspconfig[server_name].setup(server_config)
+		-- end
 
 		-- maybe delete if it fails --
 		vim.keymap.set("n", "HH", vim.lsp.buf.hover, {})

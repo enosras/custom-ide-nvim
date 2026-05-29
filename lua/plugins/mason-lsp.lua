@@ -17,6 +17,7 @@ return {
 			automatic_enable = true,
 			-- { "lua_ls", "clangd", "vimls", "pyright" },
 			ensure_installed = {
+				"vtsls",
 				"lua_ls",
 				"rust_analyzer",
 				"html",
