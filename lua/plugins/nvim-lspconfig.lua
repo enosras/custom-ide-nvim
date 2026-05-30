@@ -41,6 +41,8 @@ return {
 						diagnostics = {
 							-- Get the language server to recognize the `vim` global
 							globals = { "vim" },
+							-- Diabling missing fields error
+							disable = { "missing-fields" },
 						},
 						workspace = {
 							-- Make the server aware of Neovim runtime files and plugins
@@ -186,7 +188,7 @@ return {
 			},
 			ruby_lsp = {},
 			terraformls = {},
-
+			groovyls = { filetypes = "groovy" },
 			cfn_lsp = {
 				cmd = {
 					"node",
@@ -197,7 +199,13 @@ return {
 				settings = { cloudformation = {} },
 			},
 
-			hclls = {},
+			-- hclls = {},
+			promql_langserver = {
+				cmd = { "promql-langserver", "--stdio" },
+				filetypes = { "promql" },
+				-- Adjust root directory detection based on your repo structure
+				-- root_dir = lspconfig.util.root_pattern(".git", "prometheus.yml"),
+			},
 			bashls = {
 				cmd = { "bash-language-server", "start" },
 				filetypes = { "sh", "zsh", "bash" },
@@ -246,6 +254,8 @@ return {
 				"yamlls",
 				"hclfmt",
 				"cfn-lint",
+				"groovy-language-server",
+				-- "promql_langserver",
 			},
 		})
 		local lspconfig = require("lspconfig")
@@ -273,7 +283,11 @@ return {
 		lspconfig["vtsls"].setup({ capabilities = capabilities })
 		lspconfig["html"].setup({ capabilities = capabilities })
 		lspconfig["terraformls"].setup({ capabilities = capabilities })
-		lspconfig["hclls"].setup({ capabilities = capabilities })
+		-- lspconfig["hclls"].setup({ capabilities = capabilities })
+
+		lspconfig["groovyls"].setup({ capabilities = capabilities })
+
+		-- lspconfig["promql-langserver"].setup({ capabilities = capabilities })
 		-- lspconfig["cfn-lint"].setup({ capabilities = capabilities })
 
 		-- some additions if the lsp seem to be failing
@@ -284,7 +298,6 @@ return {
 		-- 	})
 		-- 	lspconfig[server_name].setup(server_config)
 		-- end
-
 		-- maybe delete if it fails --
 		vim.keymap.set("n", "HH", vim.lsp.buf.hover, {})
 		vim.keymap.set("n", "RR", vim.lsp.buf.references, {})
