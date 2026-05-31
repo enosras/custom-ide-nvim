@@ -7,11 +7,15 @@ return {
 		config = function(_, opts)
 			require("nvim-treesitter.config").setup({
 				ensure_installed = {
+					"groovy",
+					"hcl",
+					"terraform",
 					"c",
 					"markdown",
 					"lua",
 					"vimscript",
 					"go",
+					"kotlin",
 					"javascript",
 					"ruby",
 					"python",
@@ -19,6 +23,7 @@ return {
 					"rust",
 					"cpp",
 					"bash",
+					"ansible-language-server",
 				},
 				-- sync_install = true,
 				auto_install = true,

@@ -1,8 +1,10 @@
--- LSP Server to use for Python.
--- Set to "basedpyright" to use basedpyright instead of pyright.
--- vim.g.lazyvim_python_lsp = "pyright"
--- -- Set to "ruff_lsp" to use the old LSP implementation version.
--- vim.g.lazyvim_python_ruff = "ruff"
--- -- in this case.
--- vim.g.lazyvim_blink_main = false
-vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
+-- vim.o.statuscolumn = "%!v:lnum"
+-- vim.o.statuscolumn = "%!v:virtnum"
+-- vim.o.statuscolumn = "%!v:lua.require('statcol'). myStatuscolumn()"
+-- vim.o.virt
+-- vim.o.sta
+-- vim.v.maxcol
+-- vim.o.statu
+-- vim.o.signcolumn = "yes"
+-- scolumn = "%!v:lua.require('s'). myStatuscolumn()"
+-- vim.o.statusline

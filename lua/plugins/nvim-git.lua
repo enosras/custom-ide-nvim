@@ -1,6 +1,8 @@
 return {
 	{
 		"tpope/vim-fugitive",
+
+		--     fn loc () end
 	},
 	{
 		"lewis6991/gitsigns.nvim",

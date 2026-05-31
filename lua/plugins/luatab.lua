@@ -1,14 +1,14 @@
 return {
-	-- {
-	-- 	"alvarosevilla95/luatab.nvim",
-	-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
-	-- },
-	-- -------- ------------- ---
+	{
+		"alvarosevilla95/luatab.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
+	-- ------ ------------- ---
 	-- these plugins are not related --
-	-- ---- --------
+	-- ----------
 	-- {
 	-- 	"nvim-lualine/lualine.nvim",
-	-- 	lazy = "false",
+	-- 	-- lazy = "false",
 	-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	-- 	--require("lualine").setup({
 	-- 	opts = {
