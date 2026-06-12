@@ -33,6 +33,7 @@ return {
 				"perlnavigator",
 				"ansiblels",
 				"yamlls",
+				"awk_ls",
 			},
 			handlers = {
 				function(server_name)

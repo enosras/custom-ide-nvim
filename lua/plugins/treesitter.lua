@@ -24,6 +24,8 @@ return {
 					"cpp",
 					"bash",
 					"ansible-language-server",
+					"zig",
+					"awk-language-server",
 				},
 				-- sync_install = true,
 				auto_install = true,
