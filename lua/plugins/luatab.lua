@@ -1,14 +1,70 @@
 return {
+	{
+		"ergodice/statuscol-oil.nvim",
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+			"stevearc/oil.nvim",
+			-- "luukvbaal/statuscol.nvim",
+		},
+		opts = {},
+		config = function()
+			require("statuscol-oil").setup()
+		end,
+	},
+
+	{
+		"suketa/nvim-dap-ruby",
+		config = function()
+			require("dap-ruby").setup()
+		end,
+	},
+
 	-- I use this for a couple of diplay features
 	-- here is more
 	-- -----------
-	-- { "stevearc/oil.nvim" },
+	{
+		"stevearc/oil.nvim",
+		opts = {},
+		config = function()
+			require("oil").setup({
+				-- Force oil to render its metadata column layout out of the text buffer
+				columns = { "icon", "permissions", "size", "mtime" },
+			})
+
+			-- Safely inject statuscol-oil only inside Oil buffers without breaking LazyVim
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "oil",
+				callback = function(args)
+					vim.wo.statuscolumn = "%!v:lua.require('statuscol-oil').get_meta({ buf = " .. args.buf .. " })"
+				end,
+			})
+		end,
+	},
 	-- ---- -----
+	{ "sindrets/diffview.nvim" },
 	{
 		"mvllow/modes.nvim",
 		tag = "v0.2.1",
+		-- config = function()
+		-- 	require("modes").setup()
+		-- end,
+
 		config = function()
-			require("modes").setup()
+			require("modes").setup({
+				colors = {
+					-- Catppuccin Mocha hex color choices
+					insert = "#99b79a", -- Blue
+					visual = "#651fff", -- VIOLET
+					delete = "#f38ba8", -- Red
+					copy = "#f9e2af", -- Yellow
+				},
+				line_opacity = 0.15, -- Slight color glow on the current line background
+				set_cursor = true, -- Changes cursor color to match the mode
+				set_cursorline = true, -- Colors the line background
+				set_number = true, -- Colors the line numbers
+				set_signcolumn = true, -- Colors the left sidebar column gutter
+			})
+			vim.o.cmdheight = 0
 		end,
 	},
 	{
@@ -18,74 +74,75 @@ return {
 			-- your opts here ...
 		},
 	},
-	{ "akinsho/bufferline.nvim", version = "*", dependencies = "nvim-tree/nvim-web-devicons" },
-	{
-		"alvarosevilla95/luatab.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-	},
-	-- { "danilamihailov/beacon.nvim" },
-	-- { "adelarsq/neoline.vim" },
-	-- ------ ------------- ---
-	-- these plugins are not related --
-	-- ----------
-	{
-		"nvim-lualine/lualine.nvim",
-		-- lazy = "false",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		-- require("lualine").setup({
-		opts = {
-			options = {
-				icons_enabled = true,
-				theme = "auto",
-				component_separators = { left = "", right = "" },
-				section_separators = { left = "", right = "" },
-				disabled_filetypes = {
-					statusline = {},
-					winbar = {},
-				},
-				ignore_focus = {},
-				always_divide_middle = true,
-				always_show_tabline = true,
-				globalstatus = false,
-				refresh = {
-					statusline = 1000,
-					tabline = 1000,
-					winbar = 1000,
-					refresh_time = 16, -- ~60fps
-					events = {
-						"WinEnter",
-						"BufEnter",
-						"BufWritePost",
-						"SessionLoadPost",
-						"FileChangedShellPost",
-						"VimResized",
-						"Filetype",
-						"CursorMoved",
-						"CursorMovedI",
-						"ModeChanged",
-					},
-				},
-			},
-			sections = {
-				lualine_a = { "mode" },
-				lualine_b = { "branch", "diff", "diagnostics" },
-				lualine_c = { "filename" },
-				lualine_x = { "encoding", "fileformat", "filetype" },
-				lualine_y = { "progress" },
-				lualine_z = { "location" },
-			},
-			inactive_sections = {
-				lualine_a = {},
-				lualine_b = {},
-				lualine_c = { "filename" },
-				lualine_x = { "location" },
-				lualine_y = {},
-				lualine_z = {},
-			},
-			tabline = {},
-			winbar = {},
-			inactive_winbar = {},
-			extensions = {},
-		},
-	},
 }
+
+-- { "akinsho/bufferline.nvim", version = "*", dependencies = "nvim-tree/nvim-web-devicons" },
+-- {
+-- 	"alvarosevilla95/luatab.nvim",
+-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
+-- },
+-- { "danilamihailov/beacon.nvim" },
+-- { "adelarsq/neoline.vim" },
+-- ------ ------------- ---
+-- these plugins are not related --
+-- ----------
+-- {
+-- 	"nvim-lualine/lualine.nvim",
+-- 	-- lazy = "false",
+-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
+-- 	-- require("lualine").setup({
+-- 	opts = {
+-- 		options = {
+-- 			icons_enabled = true,
+-- 			theme = "auto",
+-- 			component_separators = { left = "", right = "" },
+-- 			section_separators = { left = "", right = "" },
+-- 			disabled_filetypes = {
+-- 				statusline = {},
+-- 				winbar = {},
+-- 			},
+-- 			ignore_focus = {},
+-- 			always_divide_middle = true,
+-- 			always_show_tabline = true,
+-- 			globalstatus = false,
+-- 			refresh = {
+-- 				statusline = 1000,
+-- 				tabline = 1000,
+-- 				winbar = 1000,
+-- 				refresh_time = 16, -- ~60fps
+-- 				events = {
+-- 					"WinEnter",
+-- 					"BufEnter",
+-- 					"BufWritePost",
+-- 					"SessionLoadPost",
+-- 					"FileChangedShellPost",
+-- 					"VimResized",
+-- 					"Filetype",
+-- 					"CursorMoved",
+-- 					"CursorMovedI",
+-- 					"ModeChanged",
+-- 				},
+-- 			},
+-- 		},
+-- 		sections = {
+-- 			lualine_a = { "mode" },
+-- 			lualine_b = { "branch", "diff", "diagnostics" },
+-- 			lualine_c = { "filename" },
+-- 			lualine_x = { "encoding", "fileformat", "filetype" },
+-- 			lualine_y = { "progress" },
+-- 			lualine_z = { "location" },
+-- 		},
+-- 		inactive_sections = {
+-- 			lualine_a = {},
+-- 			lualine_b = {},
+-- 			lualine_c = { "filename" },
+-- 			lualine_x = { "location" },
+-- 			lualine_y = {},
+-- 			lualine_z = {},
+-- 		},
+-- 		tabline = {},
+-- 		winbar = {},
+-- 		inactive_winbar = {},
+-- 		extensions = {},
+-- 	},
+-- },

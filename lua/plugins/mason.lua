@@ -10,6 +10,7 @@ return {
 			"black",
 			"ktlint",
 			"js-debug-adapter",
+			{ "erb-formatter", "erb-lint" },
 		},
 	},
 

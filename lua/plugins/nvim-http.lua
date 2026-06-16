@@ -8,7 +8,7 @@ return {
 	-- 	},
 	-- 	config = true,
 	-- },
-	-- not for http but for highlighting surround
+	-- not for http but for highlighting surround blue
 	-- --- --------------------
 	{
 		"kylechui/nvim-surround",

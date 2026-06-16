@@ -7,6 +7,7 @@ return {
 	--build = "make install_jsregexp"
 	dependencies = {
 		"rafamadriz/friendly-snippets",
+		"stevearc/vim-vscode-snippets",
 	},
 	config = function()
 		require("luasnip.loaders.from_vscode").lazy_load()
