@@ -202,7 +202,7 @@ return {
 				},
 			},
 			terraformls = {},
-			groovyls = { filetypes = "groovy" },
+			groovyls = { filetypes = "groovy", "jenkinsfile" },
 			cfn_lsp = {
 				cmd = {
 					"node",
