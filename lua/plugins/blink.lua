@@ -107,6 +107,20 @@ return {
 						-- 	highlight = "CmpItemKind",
 						-- },
 						-- kind icon opt 2 --
+						-- ---
+						-- NOTE apply this at a later date
+						--components = {
+						--     label = {
+						--         text = function(ctx)
+						--             return require("colorful-menu").blink_components_text(ctx)
+						--         end,
+						--         highlight = function(ctx)
+						--             return require("colorful-menu").blink_components_highlight(ctx)
+						--         end,
+						--     },
+						-- },
+						--
+						--
 						kind_icon = {
 							text = function(ctx)
 								return require("lspkind").symbol_map[ctx.kind] or ""
