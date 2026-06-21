@@ -1,0 +1,12 @@
+1. Global Variables (HISTFILE, HISTSIZE)
+      ↓
+2. Framework Engine (source oh-my-zsh.sh)
+      ↓
+3. Environment Fixes (TERM, DISPLAY, EDITOR, PATH)
+      ↓
+4. Behavioral Switches (setopt)
+      ↓
+5. Plugins & Custom Themes (source fzf-tab.plugin.zsh)
+      ↓
+6. Fine-Tuning Overrides (zstyle rules)  <-- MUST BE AT THE VERY BOTTOM
+
