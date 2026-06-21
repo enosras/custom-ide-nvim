@@ -1,6 +1,7 @@
 return {
 	"xzbdmw/colorful-menu.nvim",
-	lazy = true,
+	lazy = false,
+	opts = {},
 	config = function()
 		-- You don't need to set these options.
 		require("colorful-menu").setup({
