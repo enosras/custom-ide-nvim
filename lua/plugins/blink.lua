@@ -128,10 +128,18 @@ return {
 						},
 						-- ends here
 						label = {
-							text = function(item)
-								return item.label
+							-- NOTE: probably delete this if it fails
+							text = function(ctx)
+								return require("colorful-menu").blink_components_text(ctx)
 							end,
-							highlight = "CmpItemAbbr",
+							highlight = function(ctx)
+								return require("colorful-menu").blink_components_highlight(ctx)
+							end,
+							-- ---- ----- ----
+							-- text = function(item)
+							-- 	return item.label
+							-- end,
+							-- highlight = "CmpItemAbbr",
 						},
 						kind = {
 							text = function(item)
