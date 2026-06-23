@@ -1,5 +1,3 @@
-# zmodload zsh/zprof
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -7,15 +5,36 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# ====================================================
+# NOTE: CORE SYSTEM HISTFILE & SIZE DEFINITIONS
+# ====================================================
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 # NOTE paths to be declared bbefore loading
 export PATH="/opt/homebrew/bin:/opt/homebrew/opt/ruby/bin:/usr/local/bin:/usr/local/sbin:$PATH"
 # eval "$(~/.local/bin/mise activate)"
 export PATH="/Applications/Ghostty.app/Contents/MacOS:/Users/enos/go/bin:$PATH"
+export HISTFILE="$HOME/.zsh_history"
+HISTSIZE=1000000
+SAVEHIST=1000000
+setopt HIST_IGNORE_SPACE     # Zsh equivalent to HISTCONTROL=ignorespace
+setopt HIST_IGNORE_DUPS      # Zsh equivalent to HISTCONTROL=ignoredups
+setopt HIST_REDUCE_BLANKS    # Removes superfluous spaces
+
+# Oh My Zsh Boot Overrides
+zstyle ':omz:update' mode reminder     # Just remind me to update when it's time
+DISABLE_AUTO_TITLE="true"               # Don't let windows rename my tabs
+COMPLETION_WAITING_DOTS="true"          # Show waiting dots while completions load
+HIST_STAMPS="mm/dd/yyyy"                # Format your extended history dates
+
 
 # # Path to your Oh My Zsh installation.
 # export ZSH="$HOME/.oh-my-zsh"
+#
+# ====================================================
+# NOTE OH MY ZSH INITIALIZATION
+# ====================================================
 
 # NOTE: autocompletion for extra completions configs
 # these custom paths are rendered before sourcing
@@ -23,14 +42,13 @@ fpath=(~/.zsh/completions $fpath)
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-
+ZSH_THEME="powerlevel10k/powerlevel10k"
 # ZSH_THEME="powerlevel10k/powerlevel10k"
 # NOTE IT IS VERY IMPORTANT TO LOAD STUFF BEFORE SOURCING OMZ
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions fzf-tab zoxide ansible terraform kubectl aws gh bundler)
-# plugins=(git)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions fzf-tab zoxide ansible terraform kubectl aws gh)
 source $ZSH/oh-my-zsh.sh
 
-# # NOTE: autocompletion for github-cli
+# # NOTE: autocompletion for custom paths
 # fpath=(~ ~/.zsh/completions $fpath)
 
 # uncomment this only if not using omz
@@ -42,7 +60,7 @@ autoload -U +X bashcompinit && bashcompinit
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# ZSH_THEME="powerlevel10k/powerlevel10k"
 
 #ZSH_THEME="robbyrussell"
 
@@ -64,7 +82,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
- zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
 # zstyle ':omz:update' frequency 13
@@ -76,7 +94,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-DISABLE_AUTO_TITLE="true"
+# DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
@@ -85,7 +103,7 @@ DISABLE_AUTO_TITLE="true"
 # You can also set it to another string to have that shown instead of the default red dots.
 # e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
 # Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-COMPLETION_WAITING_DOTS="true"
+# COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -98,7 +116,7 @@ COMPLETION_WAITING_DOTS="true"
 # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
-HIST_STAMPS="mm/dd/yyyy"
+# HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -114,10 +132,21 @@ HIST_STAMPS="mm/dd/yyyy"
 
 # User configuration
 
+# ============================================================================
+# NOTE USER ENVIRONMENT CONFIGURATIONS  AND INTERACTIVE CLI ENGINES(After OMZ)
+# ============================================================================
+source <(fzf --zsh) # allow for fzf history widget
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
+
+# Runtime managers
+eval "$(~/.local/bin/mise activate zsh)"
+source "$HOME/.cargo/env"
+# export PATH=/Users/enos/.cargo/bin:/Users/enos/.local/share/mise/installs/ruby/3.4.8/bin:/Users/enos/.local/bin:/opt/homebrew/bin:/opt/homebrew/opt/ruby/bin:/usr/local/bin:/usr/local/sbin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Applications/Ghostty.app/Contents/MacOS:/Users/enos/go/bin/
+eval "$(tv init zsh)"
+source /Users/enos/.config/broot/launcher/bash/br
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -125,6 +154,136 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   export EDITOR='nvim'
 fi
+
+# terminal display
+export TERM=xterm-256color
+export DISPLAY=:2
+export REQUEST_CA_BUNDLE=/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/certifi/cacert.pem
+
+
+# NOTE User configs come here
+
+# for mkdir and cd
+function mkd {
+file_path="$1"
+#echo "enos"
+mkdir -m 755 "$file_path" && cd "$file_path"|| terminal-notifier -title "Error" -message "Doesn't work"  
+
+}
+
+# for swift git commit
+function gc {
+message="$1"
+git commit -m "$message" || echo "error"
+}
+
+# ====================================================
+# NOTE FZF-TAB PLUGIN INITIALIZATION & ZSTYLE RULES
+# ====================================================
+
+# # NOTE for history appending
+# # load modules
+# zmodload zsh/complist
+# # autoload -U compinit && compinit
+# # autoload -U colors && colors
+# # autoload -U tetris # main attraction of zsh, obviously
+#
+# # NOTE for setting auto plugins
+# # disable sort when completing `git checkout`
+# zstyle ':completion:*:git-checkout:*' sort false
+# # set descriptions format to enable group support
+# # NOTE: don't use escape sequences (like '%F{red}%d%f') here, fzf-tab will ignore them
+# zstyle ':completion:*:descriptions' format '[%d]'
+# # set list-colors to enable filename colorizing
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+# zstyle ':completion:*' menu no
+# # preview directory's content with eza when completing cd
+# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# # custom fzf flags
+# # NOTE: fzf-tab does not follow FZF_DEFAULT_OPTS by default
+# zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
+# # To make fzf-tab follow FZF_DEFAULT_OPTS.
+# # NOTE: This may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
+# zstyle ':fzf-tab:*' use-fzf-default-opts yes
+# # switch group using `<` and `>`
+# # for architectiural reasons use string left and right to execute this system call
+# zstyle ':fzf-tab:*' switch-group 'left' 'right'
+# Add custom scrolling shortcuts for the fzf-tab preview window
+# zstyle ':fzf-tab:*' fzf-flags '--bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up'
+
+
+# cmp without using plugins
+# zstyle ':completion:*' menu select # tab opens cmp menu
+# zstyle ':completion:*' special-dirs true # force . and .. to show in cmp menu
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;33 # colorize cmp menu
+# # zstyle ':completion:*' file-list true # more detailed list
+# zstyle ':completion:*' squeeze-slashes false # explicit disable to allow /*/ expansion
+
+# NOTE these are extras and they go before omz uploads
+# setopt HIST_IGNORE_SPACE     # Zsh equivalent to HISTCONTROL=ignorespace
+# setopt HIST_IGNORE_DUPS      # Zsh equivalent to HISTCONTROL=ignoredups
+# setopt HIST_REDUCE_BLANKS    # Removes superfluous spaces
+# setopt share_history  
+
+# ====================================================
+# NOTE CUSTOM PERFORMANCE OPTIONS & COMPLETIONS 
+# ====================================================
+
+# main opts
+setopt append_history inc_append_history share_history # better history
+setopt EXTENDED_HISTORY
+# on exit, history appends rather than overwrites; history is appended as soon as cmds executed; history shared across sessions
+setopt auto_menu 
+setopt menu_complete # autocmp first menu match
+setopt autocd # type a dir to cd
+setopt auto_param_slash # when a dir is completed, add a / instead of a trailing space
+setopt no_case_glob no_case_match # make cmp case insensitive
+setopt globdots # include dotfiles
+setopt extended_glob # match ~ # ^
+setopt interactive_comments # allow comments in shell
+unsetopt prompt_sp # don't autoclean blanklines
+stty stop undef # disable accidental ctrl s
+
+# history opts
+# HISTSIZE=1000000
+# SAVEHIST=1000000
+# HISTFILE="$XDG_CACHE_HOME/zsh_history" # move histfile to cache
+# export HISTFILE="$HOME/.zsh_history"
+# HISTCONTROL=ignoreboth # consecutive duplicates & commands starting with space are not saved
+
+# fzf setup
+# source <(fzf --zsh) # allow for fzf history widget
+
+# Compilation flags
+# export ARCHFLAGS="-arch $(uname -m)"
+
+# Add a side preview window to the Ctrl+T file searcher
+# export FZF_CTRL_T_OPTS="--preview 'cat {}' --preview-window right:50%"
+
+# NOTE CUSTOM CONFIGS 
+# export PATH="/opt/homebrew/bin:$PATH"
+# export PATH="/opt/homebrew/bin:/opt/homebrew/opt/ruby/bin:/usr/local/bin:/usr/local/sbin:$PATH"
+# # eval "$(~/.local/bin/mise activate)"
+# export PATH="/Applications/Ghostty.app/Contents/MacOS:/Users/enos/go/bin:$PATH"
+# eval "$(~/.local/bin/mise activate zsh)"
+# source "$HOME/.cargo/env"
+# export PATH=/Users/enos/.cargo/bin:/Users/enos/.local/share/mise/installs/ruby/3.4.8/bin:/Users/enos/.local/bin:/opt/homebrew/bin:/opt/homebrew/opt/ruby/bin:/usr/local/bin:/usr/local/sbin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Applications/Ghostty.app/Contents/MacOS:/Users/enos/go/bin/
+# source <(sk --shell zsh)
+
+# source <(sk --shell zsh)
+# eval "$(tv init zsh)"
+
+# Set personal aliases, overriding those provided by Oh My Zsh libs,
+# plugins, and themes. Aliases can be placed here, though Oh My Zsh
+# users are encouraged to define aliases within a top-level file in
+# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
+# - $ZSH_CUSTOM/aliases.zsh
+# - $ZSH_CUSTOM/macos.zsh
+
+# ====================================================
+# NOTE FZF-TAB PLUGIN INITIALIZATION & ZSTYLE RULES
+# ====================================================
 
 # NOTE for history appending
 # load modules
@@ -158,98 +317,6 @@ zstyle ':fzf-tab:*' switch-group 'left' 'right'
 # zstyle ':fzf-tab:*' fzf-flags '--bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up'
 
 
-# cmp without using plugins
-# zstyle ':completion:*' menu select # tab opens cmp menu
-# zstyle ':completion:*' special-dirs true # force . and .. to show in cmp menu
-# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;33 # colorize cmp menu
-# # zstyle ':completion:*' file-list true # more detailed list
-# zstyle ':completion:*' squeeze-slashes false # explicit disable to allow /*/ expansion
-
-# main opts
-setopt append_history inc_append_history share_history # better history
-# on exit, history appends rather than overwrites; history is appended as soon as cmds executed; history shared across sessions
-setopt auto_menu menu_complete # autocmp first menu match
-setopt autocd # type a dir to cd
-setopt auto_param_slash # when a dir is completed, add a / instead of a trailing space
-setopt no_case_glob no_case_match # make cmp case insensitive
-setopt globdots # include dotfiles
-setopt extended_glob # match ~ # ^
-setopt interactive_comments # allow comments in shell
-unsetopt prompt_sp # don't autoclean blanklines
-# stty stop undef # disable accidental ctrl s
-
-# history opts
-HISTSIZE=1000000
-SAVEHIST=1000000
-# HISTFILE="$XDG_CACHE_HOME/zsh_history" # move histfile to cache
-export HISTFILE="$HOME/.zsh_history"
-HISTCONTROL=ignoreboth # consecutive duplicates & commands starting with space are not saved
-
-# fzf setup
-source <(fzf --zsh) # allow for fzf history widget
-
-# Compilation flags
-# export ARCHFLAGS="-arch $(uname -m)"
-
-# NOTE custom functions
-
-
-# Add a side preview window to the Ctrl+T file searcher
-# export FZF_CTRL_T_OPTS="--preview 'cat {}' --preview-window right:50%"
-
-
-# for multiple files mkdir -p can do it
-function mkds
-{
-file=$1
-file2=$2
-mkdir -pm 755 $file/$file2 && cd $file || terminal-notifier -title "Error" -message "Check Codes"
-
-}
-
-# for mkdir and cd
-function mkd
-{
-file=$1
-#echo "enos"
-mkdir -m 755 $file && cd $file || terminal-notifier -title "Error" -message "Doesn't work"  
-
-}
-
-# for swift git commit
-function gc
-{
-message=$1
-git commit -m $message || echo "error"
-}
-
-# NOTE CUSTOM CONFIGS 
-# export PATH="/opt/homebrew/bin:$PATH"
-# export PATH="/opt/homebrew/bin:/opt/homebrew/opt/ruby/bin:/usr/local/bin:/usr/local/sbin:$PATH"
-# # eval "$(~/.local/bin/mise activate)"
-# export PATH="/Applications/Ghostty.app/Contents/MacOS:/Users/enos/go/bin:$PATH"
-eval "$(~/.local/bin/mise activate zsh)"
-source "$HOME/.cargo/env"
-# export PATH=/Users/enos/.cargo/bin:/Users/enos/.local/share/mise/installs/ruby/3.4.8/bin:/Users/enos/.local/bin:/opt/homebrew/bin:/opt/homebrew/opt/ruby/bin:/usr/local/bin:/usr/local/sbin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Applications/Ghostty.app/Contents/MacOS:/Users/enos/go/bin/
-# source <(sk --shell zsh)
-
-
-export TERM=xterm-256color
-export DISPLAY=:2
-
-# source <(sk --shell zsh)
-eval "$(tv init zsh)"
-
-source /Users/enos/.config/broot/launcher/bash/br
-export REQUEST_CA_BUNDLE=/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/certifi/cacert.pem
-
-# Set personal aliases, overriding those provided by Oh My Zsh libs,
-# plugins, and themes. Aliases can be placed here, though Oh My Zsh
-# users are encouraged to define aliases within a top-level file in
-# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
-# - $ZSH_CUSTOM/aliases.zsh
-# - $ZSH_CUSTOM/macos.zsh
-
 # For a full list of active aliases, run `alias`.
 # NOTE: I MOVED ALL ALIASES TO /Users/enos/.oh-my-zsh/custom/aliases.zsh
 # Example aliases
@@ -268,21 +335,3 @@ export REQUEST_CA_BUNDLE=/Library/Frameworks/Python.framework/Versions/3.12/lib/
 
 # autocompletion for terraform
 complete -o nospace -C /usr/local/bin/terraform terraform
-
-# autocompletion for ansible
-# Register Ansible commands the old style
-# eval "$(register-python-argcomplete ansible)"
-# eval "$(register-python-argcomplete ansible-playbook)"
-# eval "$(register-python-argcomplete ansible-galaxy)"
-# eval "$(register-python-argcomplete ansible-vault)"
-# export PATH="/usr/local/opt/python@3.14/bin:$PATH"
-# zprof
-
-# Force Zsh to skip evaluating 1600+ compdef checks if a cache exists
-# if [[ -n "$ZSH_COMPDUMP" ]]; then
-#   if [[ -s "$ZSH_COMPDUMP" ]]; then
-#     compinit -C -d "$ZSH_COMPDUMP"
-#   else
-#     compinit -i -d "$ZSH_COMPDUMP"
-#   fi
-# fi
