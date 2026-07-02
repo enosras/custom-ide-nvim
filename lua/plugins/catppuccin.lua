@@ -7,6 +7,7 @@ return {
 
 		config = function()
 			require("catppuccin").setup({
+				-- auto_integrations = true,
 				flavour = "mocha", -- latte, frappe, macchiato, mocha, default is auto
 				background = { -- :h background
 					--light = "mocha",
@@ -64,18 +65,32 @@ return {
 				default_integrations = true,
 				auto_integrations = false,
 				integrations = {
-					cmp = true,
+					fzf = true,
+					-- cmp = true,
 					gitsigns = true,
 					nvimtree = true,
 					notify = false,
+					blink_cmp = {
+						enabled = true,
+						style = "bordered",
+					},
 					mini = {
 						enabled = true,
 						indentscope_color = "",
 					},
 					-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
 				},
+				custom_highlights = function(colors)
+					return {
+						BlinkCmpMenu = { bg = colors.base },
+						BlinkCmpMenuBorder = { bg = colors.base, fg = colors.mauve },
+						BlinkCmpDoc = { bg = colors.base },
+						BlinkCmpDocBorder = { bg = colors.base, fg = colors.mauve },
+						BlinkCmpSignatureHelp = { bg = colors.mantle },
+						BlinkCmpSignatureHelpBorder = { fg = colors.base, bg = colors.mauve },
+					}
+				end,
 			})
-
 			-- setup must be called before loading
 			vim.cmd.colorscheme("catppuccin")
 		end,
