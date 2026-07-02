@@ -8,13 +8,17 @@ fi
 # ====================================================
 # NOTE: CORE SYSTEM HISTFILE & SIZE DEFINITIONS
 # ====================================================
-
+# infact you can move the global env parameters to .zshenv
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
-# NOTE paths to be declared bbefore loading
-export PATH="/opt/homebrew/bin:/opt/homebrew/opt/ruby/bin:/usr/local/bin:/usr/local/sbin:$PATH"
-# eval "$(~/.local/bin/mise activate)"
-export PATH="/Applications/Ghostty.app/Contents/MacOS:/Users/enos/go/bin:$PATH"
+# NOTE paths to be declared before loading
+# some source propose .zshenv but there is still complexity
+# export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:/Applications/Ghostty.app/Contents/MacOS:/Users/enos/go/bin:/usr/local/sbin:/opt/homebrew/bin:/opt/homebrew/opt/ruby/bin:$PATH"
+export MANPATH="/usr/local/man:$MANPATH"
+# Correct way to append to MANPATH in Zsh
+
+
+# path+=( /usr/local/man )
 export HISTFILE="$HOME/.zsh_history"
 HISTSIZE=1000000
 SAVEHIST=1000000
@@ -28,7 +32,9 @@ DISABLE_AUTO_TITLE="true"               # Don't let windows rename my tabs
 COMPLETION_WAITING_DOTS="true"          # Show waiting dots while completions load
 HIST_STAMPS="mm/dd/yyyy"                # Format your extended history dates
 
-
+# apparently some sources determine that this variable, since it is custom, comes last
+# export FZF_DEFAULT_OPTS="--border=rounded --margin=1 --color=border:blue,label:yellow"
+# other opt: padding = 1
 # # Path to your Oh My Zsh installation.
 # export ZSH="$HOME/.oh-my-zsh"
 #
@@ -43,9 +49,14 @@ fpath=(~/.zsh/completions $fpath)
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
+ENABLE_CORRECTION="true"
+
+source ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
+
+# now load zsh-syntax-highlighting plugin
 # ZSH_THEME="powerlevel10k/powerlevel10k"
 # NOTE IT IS VERY IMPORTANT TO LOAD STUFF BEFORE SOURCING OMZ
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions fzf-tab zoxide ansible terraform kubectl aws gh)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions fzf fzf-tab zoxide ansible terraform kubectl aws gh rust tmux)
 source $ZSH/oh-my-zsh.sh
 
 # # NOTE: autocompletion for custom paths
@@ -69,8 +80,6 @@ autoload -U +X bashcompinit && bashcompinit
 # a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -125,11 +134,7 @@ autoload -U +X bashcompinit && bashcompinit
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-# plugins=(custom git zsh-syntax-highlighting zsh-autosuggestions fzf-tab zoxide ansible terraform kubectl aws gh bundler)
-# plugins=(git)
-# source $ZSH/oh-my-zsh.sh
-
+# Add wisely, as too many plugins slow down shell startup.# source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # ============================================================================
@@ -137,7 +142,8 @@ autoload -U +X bashcompinit && bashcompinit
 # ============================================================================
 source <(fzf --zsh) # allow for fzf history widget
 # export MANPATH="/usr/local/man:$MANPATH"
-
+#
+# source <(lazyansible completion zsh)
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -147,6 +153,8 @@ source "$HOME/.cargo/env"
 # export PATH=/Users/enos/.cargo/bin:/Users/enos/.local/share/mise/installs/ruby/3.4.8/bin:/Users/enos/.local/bin:/opt/homebrew/bin:/opt/homebrew/opt/ruby/bin:/usr/local/bin:/usr/local/sbin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Applications/Ghostty.app/Contents/MacOS:/Users/enos/go/bin/
 eval "$(tv init zsh)"
 source /Users/enos/.config/broot/launcher/bash/br
+
+eval $(thefuck --alias)
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -160,7 +168,9 @@ export TERM=xterm-256color
 export DISPLAY=:2
 export REQUEST_CA_BUNDLE=/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/certifi/cacert.pem
 
-
+# prevent encoding display error
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 # NOTE User configs come here
 
 # for mkdir and cd
@@ -235,7 +245,8 @@ setopt append_history inc_append_history share_history # better history
 setopt EXTENDED_HISTORY
 # on exit, history appends rather than overwrites; history is appended as soon as cmds executed; history shared across sessions
 setopt auto_menu 
-setopt menu_complete # autocmp first menu match
+# NOTE this here affects how fuzzy auto cmp works 
+# setopt menu_complete # autocmp first menu match
 setopt autocd # type a dir to cd
 setopt auto_param_slash # when a dir is completed, add a / instead of a trailing space
 setopt no_case_glob no_case_match # make cmp case insensitive
@@ -243,41 +254,9 @@ setopt globdots # include dotfiles
 setopt extended_glob # match ~ # ^
 setopt interactive_comments # allow comments in shell
 unsetopt prompt_sp # don't autoclean blanklines
-stty stop undef # disable accidental ctrl s
+# stty stop undef # disable accidental ctrl s
 
-# history opts
-# HISTSIZE=1000000
-# SAVEHIST=1000000
-# HISTFILE="$XDG_CACHE_HOME/zsh_history" # move histfile to cache
-# export HISTFILE="$HOME/.zsh_history"
-# HISTCONTROL=ignoreboth # consecutive duplicates & commands starting with space are not saved
-
-# fzf setup
-# source <(fzf --zsh) # allow for fzf history widget
-
-# Compilation flags
-# export ARCHFLAGS="-arch $(uname -m)"
-
-# Add a side preview window to the Ctrl+T file searcher
-# export FZF_CTRL_T_OPTS="--preview 'cat {}' --preview-window right:50%"
-
-# NOTE CUSTOM CONFIGS 
-# export PATH="/opt/homebrew/bin:$PATH"
-# export PATH="/opt/homebrew/bin:/opt/homebrew/opt/ruby/bin:/usr/local/bin:/usr/local/sbin:$PATH"
-# # eval "$(~/.local/bin/mise activate)"
-# export PATH="/Applications/Ghostty.app/Contents/MacOS:/Users/enos/go/bin:$PATH"
-# eval "$(~/.local/bin/mise activate zsh)"
-# source "$HOME/.cargo/env"
-# export PATH=/Users/enos/.cargo/bin:/Users/enos/.local/share/mise/installs/ruby/3.4.8/bin:/Users/enos/.local/bin:/opt/homebrew/bin:/opt/homebrew/opt/ruby/bin:/usr/local/bin:/usr/local/sbin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Applications/Ghostty.app/Contents/MacOS:/Users/enos/go/bin/
-# source <(sk --shell zsh)
-
-# source <(sk --shell zsh)
-# eval "$(tv init zsh)"
-
-# Set personal aliases, overriding those provided by Oh My Zsh libs,
-# plugins, and themes. Aliases can be placed here, though Oh My Zsh
-# users are encouraged to define aliases within a top-level file in
-# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
+# history opts# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
 # - $ZSH_CUSTOM/aliases.zsh
 # - $ZSH_CUSTOM/macos.zsh
 
@@ -294,28 +273,168 @@ zmodload zsh/complist
 
 # NOTE for setting auto plugins
 # disable sort when completing `git checkout`
-zstyle ':completion:*:git-checkout:*' sort false
-# set descriptions format to enable group support
-# NOTE: don't use escape sequences (like '%F{red}%d%f') here, fzf-tab will ignore them
-zstyle ':completion:*:descriptions' format '[%d]'
-# set list-colors to enable filename colorizing
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
-zstyle ':completion:*' menu no
-# preview directory's content with eza when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-# custom fzf flags
-# NOTE: fzf-tab does not follow FZF_DEFAULT_OPTS by default
-zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
-# To make fzf-tab follow FZF_DEFAULT_OPTS.
-# NOTE: This may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
-zstyle ':fzf-tab:*' use-fzf-default-opts yes
-# switch group using `<` and `>`
-# for architectiural reasons use string left and right to execute this system call
-zstyle ':fzf-tab:*' switch-group 'left' 'right'
-# Add custom scrolling shortcuts for the fzf-tab preview window
-# zstyle ':fzf-tab:*' fzf-flags '--bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up'
+# zstyle ':completion:*:git-checkout:*' sort false
+# # set descriptions format to enable group support
+# # NOTE: don't use escape sequences (like '%F{red}%d%f') here, fzf-tab will ignore them
+# zstyle ':completion:*:descriptions' format '[%d]'
+# # set list-colors to enable filename colorizing
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+# zstyle ':completion:*' menu no
+# # preview directory's content with eza when completing cd
+# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# # custom fzf flags
+# # NOTE: fzf-tab does not follow FZF_DEFAULT_OPTS by default
+# zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
+# # To make fzf-tab follow FZF_DEFAULT_OPTS.
+# # NOTE: This may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
+# zstyle ':fzf-tab:*' use-fzf-default-opts yes
+# # switch group using `<` and `>`
+# # for architectiural reasons use string left and right to execute this system call
+# zstyle ':fzf-tab:*' switch-group 'left' 'right'
+# # Add custom scrolling shortcuts for the fzf-tab preview window
+# # zstyle ':fzf-tab:*' fzf-flags '--bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up'
+# # Tell fzf-tab to run 'man' on the current selection in a side window
+# # zstyle ':completion:*:manuals' fzf-preview 'man $word'
+# # # Configure the preview window appearance (right side, 60% width, text wrap)
+# # zstyle ':completion:*:manuals' fzf-flags --preview-window=right:60%:wrap --height=40%
+# # # a trial to get a snippet
+# # zstyle ':completion:*:manuals' fzf-preview 'man -P cat $word 2>/dev/null | head -n 20'
+#
+#
+# # offered as solution to the absence of trigger on all words
+# # the above gave precede to man and then the tab suggestions
+# #
+# #
+# # # Trigger man-page previews for the COMMAND itself (when starting a line)
+# zstyle ':completion:*:commands' fzf-preview '
+#   man -P cat $word 2>/dev/null | 
+#   col -bx | 
+#   bat --language=man --color=always --style=plain 2>/dev/null || 
+#   echo "No manual entry for $word"
+# '
+# # Configure the look and feel of the preview box
+# zstyle ':completion:*:commands' fzf-flags \
+#   --preview-window=right:50%:wrap \
+#   --height=45% \
+#   --border=rounded
+# =======================================================
+# another fzf experiment
+# ===== ==================================================
+# Core fallback style for generalized commands
+zstyle ':fzf-tab:complete:*:*' fzf-preview '
+  case "$group" in
+    "file"|"directory"|"path"|*"file"*)
+      if [ -d "$realpath" ]; then
+        eza --color=always --long --git --icons=always --no-user --no-time "$realpath" 2>/dev/null || eza --color=always --long "$realpath"
+      elif [ -f "$realpath" ]; then
+        bat --color=always --style=header,grid,numbers --line-range=:100 "$realpath" 2>/dev/null || cat "$realpath"
+      fi
+      ;;
+    *)
+      # General metadata block for non-file options
+      printf "\e[1;34mCommand Context:\e[0m %s\n" "$fzf_meta_completion"
+      printf "\e[1;32mSelected Item:\e[0m %s\n" "$word"
+      printf "\e[1;33mDescription:\e[0m %s\n" "$desc"
+      ;;
+  esac
+'
 
+# Command-specific configurations for absolute accuracy
+# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --color=always --long --tree --level=2 --icons=always "$realpath"'
+zstyle ':fzf-tab:complete:cat:*' fzf-preview 'bat --color=always --style=plain "$realpath"'
+zstyle ':fzf-tab:complete:less:*' fzf-preview 'bat --color=always --style=plain "$realpath"'
+zstyle ':fzf-tab:complete:nano:*' fzf-preview 'bat --color=always --style=plain "$realpath"'
+zstyle ':fzf-tab:complete:vim:*' fzf-preview 'bat --color=always --style=plain "$realpath"'
+
+# 
+# =========================================================================================
+# added to enhance automplete documentation preview snippet in zsh
+# i fed the above to AI for modification
+# ===========================================================================================
+# fzf-tab / zsh completion visual config
+# Required: fzf-tab plugin must be installed and loaded before this.
+
+# don't show the standard zsh completion menu (lets fzf-tab capture)
+zstyle ':completion:*' menu no
+
+# show descriptions in completion list
+zstyle ':completion:*:descriptions' format '[%d]'
+
+# enable terminal filename coloring (LS_COLORS must be set)
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# Use eza to preview directory contents when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always --long --tree $realpath'
+
+# Global fzf options for fzf-tab:
+# - preview-window on the right, 50% width wrapped
+# - allow scrolling the preview with Ctrl-d / Ctrl-u
+# - accept selection with Tab
+# - color adjustments
+#
+zstyle ':fzf-tab:*' fzf-flags '--border=rounded' '--color=fg:1,fg+:2'
+# zstyle ':fzf-tab:*' fzf-flags \
+  # --preview-window=right:50%:wrap \
+  # --height=45% \
+  # --border=rounded \
+  # --color=fg:1,fg+:2 \
+  # --bind=tab:accept,ctrl-d:preview-page-down,ctrl-u:preview-page-up
+
+# If you prefer fzf-tab to respect FZF_DEFAULT_OPTS, set this to yes.
+# Be cautious: some flags can conflict with fzf-tab.
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+
+# optional: switch completion groups using left/right
+zstyle ':fzf-tab:*' switch-group 'left' 'right'
+
+# Your existing configurations
+zstyle ':fzf-tab:*' fzf-flags --style=full
+# zstyle ':fzf-tab:complete:*' fzf-preview 'fzf-preview.sh {}'
+
+# Add specific preview rule for the man command
+zstyle ':fzf-tab:complete:man:*' fzf-preview 'man $word'
+
+# Your existing global fzf options
+export FZF_DEFAULT_OPTS="
+  --bind='focus:transform-header:file --brief {}'
+  --bind='focus:+transform-preview-label:[[ -n {} ]] && file --brief {}'
+"
+
+# Set global FZF-TAB arguments and styles
+# zstyle ':fzf-tab:*' fzf-flags --style=full
+#
+# # Use your custom preview script (or string) for tab completion
+# zstyle ':fzf-tab:complete:*' fzf-preview 'fzf-preview.sh {}'
+#
+# # Implement your custom focus and dynamic header logic using fzf's transform actions
+# export FZF_DEFAULT_OPTS="
+#   --bind='focus:transform-header:file --brief {}'
+#   --bind='focus:+transform-preview-label:[[ -n {} ]] && file --brief {}'
+# "
+
+
+# fzf --style full \
+#     --preview 'fzf-preview.sh {}' --bind 'focus:transform-header:file --brief {}'
+# Command-preview: show man page (if available) for the currently selected command
+# Uses `man -P cat` -> col -bx -> bat to render nicely. Falls back to a message if no man entry.
+# (Use single quotes to avoid premature expansion by zsh)
+# zstyle ':completion:*:commands' fzf-preview '
+#   man -P cat $word 2>/dev/null |
+#   col -bx |
+#   bat --language=man --color=always --style=plain 2>/dev/null ||
+#   echo "No manual entry for $word"
+# '
+# ===============================================================
+
+# ================================================================
+# universal non env variables
+# ===================================================================
+
+# export FZF_DEFAULT_OPTS="--border=rounded --margin=1 --color=border:blue,label:yellow"
+
+# (Optional) If your system calls bat "batcat" (Debian/Ubuntu), add alias before above:
+# alias bat='batcat'
 
 # For a full list of active aliases, run `alias`.
 # NOTE: I MOVED ALL ALIASES TO /Users/enos/.oh-my-zsh/custom/aliases.zsh
@@ -335,3 +454,64 @@ zstyle ':fzf-tab:*' switch-group 'left' 'right'
 
 # autocompletion for terraform
 complete -o nospace -C /usr/local/bin/terraform terraform
+
+# other opts --preview-label, --border-label , --multi --height 40%
+# export FZF_DEFAULT_OPTS="--border=rounded --margin=1 --color=border:blue,label:yellow --preview-label='man' --border-label='fuzzy'"
+export FZF_DEFAULT_OPTS="--preview-window=right:50%:wrap --height=45% --preview-label='wiki' --multi --reverse --border=rounded --margin=1 --color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
+ --color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
+ --color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
+ --color=selected-bg:#45475A \
+ --color=border:#6C7086,label:#CDD6F4"
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+export FZF_TMUX_OPTS="-p 80%,60%"
+# === === = = = == == = = == = = = = = == == == == == === 
+# for mocha theme
+# --color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
+# --color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
+# --color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
+# --color=selected-bg:#45475A \
+# --color=border:#6C7086,label:#CDD6F4"
+
+
+fzf-doc() {
+  fzf --style full \
+    --preview '
+      # Sanitize the input token by wrapping it securely in quotes
+      local item="{}"
+      
+      if [ -z "$item" ]; then
+        echo "No input selection detected."
+      # Safely query if the first isolated word is an executable or shell alias
+      elif type "${item%% *}" >/dev/null 2>&1; then
+        man "${item%% *}" 2>/dev/null | col -bx || "${item%% *}" --help 2>&1
+      else
+        fzf-preview.sh "$item" 2>/dev/null || file --brief "$item" 2>/dev/null
+      fi
+    ' \
+    --bind 'focus:transform-header:file --brief {}'
+}
+
+# fzf-doc() {
+#   fzf --style full \
+#     --preview '
+#       if type {} >/dev/null 2>&1; then
+#         # Clean up man page formatting and pipe to bat with man syntax coloring
+#         man {} 2>/dev/null | col -bx | bat -l man --color=always 2>/dev/null || {} --help 2>&1 | bat --color=always -l help 2>/dev/null || {} --help 2>&1
+#       else
+#         fzf-preview.sh {} 2>/dev/null || file --brief {}
+#       fi
+#     ' \
+#     --bind 'focus:transform-header:file --brief {}'
+# }
+
+_fzf_compgen_path() {
+    fd --hidden --exclude .git . "$1"
+}
+
+_fzf_compgen_dir() {
+    fd --type=d --hidden --exclude .git . "$1"
+}
+
+source ~/fzf-git.sh/fzf-git.sh
