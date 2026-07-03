@@ -63,8 +63,10 @@ return {
 				color_overrides = {},
 				custom_highlights = {},
 				default_integrations = true,
-				auto_integrations = false,
+				auto_integrations = true, -- false
 				integrations = {
+					snacks = true,
+					noice = true,
 					fzf = true,
 					-- cmp = true,
 					gitsigns = true,
@@ -76,18 +78,73 @@ return {
 					},
 					mini = {
 						enabled = true,
-						indentscope_color = "",
+						indentscope_color = "mauve",
 					},
 					-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
 				},
 				custom_highlights = function(colors)
 					return {
+						-- blink highlight groups
 						BlinkCmpMenu = { bg = colors.base },
 						BlinkCmpMenuBorder = { bg = colors.base, fg = colors.mauve },
 						BlinkCmpDoc = { bg = colors.base },
 						BlinkCmpDocBorder = { bg = colors.base, fg = colors.mauve },
 						BlinkCmpSignatureHelp = { bg = colors.mantle },
 						BlinkCmpSignatureHelpBorder = { fg = colors.base, bg = colors.mauve },
+						-- float generic config for hi groups
+						FloatBorder = { fg = colors.mauve },
+						FloatTitle = { fg = colors.lavender, bold = true },
+
+						-- customs for fzf-lua
+						FzfLuaNormal = { bg = colors.mantle }, -- Background of the fzf box
+						FzfLuaBorder = { fg = colors.mauve, bg = colors.mantle }, -- The container border
+						FzfLuaTitle = { fg = colors.mauve, bg = colors.mantle }, -- Picker title (e.g. "Files")
+						FzfLuaBackdrop = { bg = "#000000", blend = 40 },
+						-- Picker
+						SnacksPickerBorder = { fg = colors.mauve },
+						SnacksPickerTitle = { fg = colors.mauve, style = { "bold" } },
+						SnacksPickerPrompt = { fg = colors.mauve },
+
+						-- Input
+						SnacksInputBorder = { fg = colors.mauve },
+						SnacksInputTitle = { fg = colors.mauve },
+
+						-- Dashboard
+						SnacksDashboardHeader = { fg = colors.lavender },
+						SnacksDashboardFooter = { fg = colors.overlay1 },
+
+						-- Notification
+						SnacksNotifierBorderInfo = { fg = colors.mauve },
+						SnacksNotifierBorderWarn = { fg = colors.flamingo },
+						SnacksNotifierBorderError = { fg = colors.mauve },
+
+						-- Noice
+						NoiceCmdlinePopupBorder = { fg = colors.mauve },
+						NoiceCmdlinePopupTitle = { fg = colors.lavender, bold = true },
+						NoicePopupBorder = { fg = colors.mauve },
+						NoiceConfirmBorder = { fg = colors.lavender },
+
+						-- OPTION B: Make the entire box background purple (with dark text)
+						-- Remove the comment dashes below if you want a solid purple block:
+						-- NoiceCmdlinePopup = { bg = colors.mauve, fg = colors.crust },
+						-- NoiceCmdlinePopupBorder = { bg = colors.mauve, fg = colors.mauve
+						-- If using mini.notify, you can explicitly map highlights here:
+						-- MiniNotifyBorder = { fg = colors.lavender },
+						-- MiniNotifyTitle = { fg = colors.mauve, bold = true },
+
+						-- If using nvim-notify, you can explicitly map highlights here:
+						-- NotifyInfoBorder = { fg = colors.mauve },
+						-- NotifyInfoIcon = { fg = colors.mauve },
+						-- MsgArea controls the text and background color of the command line box
+						-- MsgArea = {
+						-- 	bg = colors.mauve, -- Makes the background Catppuccin's purple
+						-- 	fg = colors.crust, -- Makes the text dark so it stays readable on purple
+						-- },
+						-- -- Optional: Change the visual separator line right above the command line
+						-- MsgSeparator = {
+						-- 	fg = colors.mantle,
+						-- 	bg = colors.mauve,
+						-- },
 					}
 				end,
 			})
