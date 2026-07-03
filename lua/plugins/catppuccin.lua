@@ -100,6 +100,10 @@ return {
 						FzfLuaBorder = { fg = colors.mauve, bg = colors.mantle }, -- The container border
 						FzfLuaTitle = { fg = colors.mauve, bg = colors.mantle }, -- Picker title (e.g. "Files")
 						FzfLuaBackdrop = { bg = "#000000", blend = 40 },
+
+						-- lsp
+						LspInfoBorder = { fg = colors.mauve },
+
 						-- Picker
 						SnacksPickerBorder = { fg = colors.mauve },
 						SnacksPickerTitle = { fg = colors.mauve, style = { "bold" } },
@@ -123,6 +127,18 @@ return {
 						NoiceCmdlinePopupTitle = { fg = colors.lavender, bold = true },
 						NoicePopupBorder = { fg = colors.mauve },
 						NoiceConfirmBorder = { fg = colors.lavender },
+
+						-- Telescope
+						TelescopeBorder = { fg = colors.mauve },
+						TelescopePromptBorder = { fg = colors.mauve },
+						TelescopeResultsBorder = { fg = colors.mauve },
+						TelescopePreviewBorder = { fg = colors.mauve },
+
+						-- scroll bar
+						ScrollbarHandle = {
+							fg = colors.mauve,
+							bg = colors.mauve,
+						},
 
 						-- OPTION B: Make the entire box background purple (with dark text)
 						-- Remove the comment dashes below if you want a solid purple block:
