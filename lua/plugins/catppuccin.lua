@@ -139,6 +139,35 @@ return {
 							fg = colors.mauve,
 							bg = colors.mauve,
 						},
+						-- ScrollbarCursor = {
+						-- 	fg = colors.lavender,
+						-- 	bg = colors.lavender,
+						-- },
+						--
+						-- ScrollbarSearch = {
+						-- 	fg = colors.pink,
+						-- 	bg = colors.pink,
+						-- },
+						--
+						-- ScrollbarError = {
+						-- 	fg = colors.red,
+						-- 	bg = colors.red,
+						-- },
+						--
+						-- ScrollbarWarn = {
+						-- 	fg = colors.peach,
+						-- 	bg = colors.peach,
+						-- },
+						--
+						-- ScrollbarInfo = {
+						-- 	fg = colors.sky,
+						-- 	bg = colors.sky,
+						-- },
+						--
+						-- ScrollbarHint = {
+						-- 	fg = colors.teal,
+						-- 	bg = colors.teal,
+						-- },
 
 						-- OPTION B: Make the entire box background purple (with dark text)
 						-- Remove the comment dashes below if you want a solid purple block:

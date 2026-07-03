@@ -48,15 +48,15 @@ return {
 			-- })
 
 			--	require("scrollbar").setup({
-
 			require("scrollbar").setup({
+				set_highlights = false,
 
 				-- your configuration options here
 				-- e.g.
-				handle = { color = "orange" },
+				-- handle = { color = "orange" },
 				marks = {
 					DiagnosticSignError = { color = "red" },
-					DiagnosticSignWarn = { color = "yellow" },
+					DiagnosticSignWarn = { color = "purple" },
 					DiagnosticSignInfo = { color = "blue" },
 					DiagnosticSignHint = { color = "green" },
 					-- ``
