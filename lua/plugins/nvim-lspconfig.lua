@@ -214,6 +214,14 @@ return {
 			},
 
 			-- hclls = {},
+			-- tmux_ls = {
+			-- 	mason = false,
+			-- 	cmd = {
+			-- 		"tmux-language-server",
+			-- 	},
+			-- 	filetypes = { "tmux.conf", "tmux" },
+			-- 	root_dir = vim.fs.dirname(vim.fs.find({ ".git", ".tmux.conf", "tmux.conf" }, { upward = true })[1]),
+			-- },
 			zls = {},
 			awk_ls = {},
 			dockerls = {
@@ -223,15 +231,33 @@ return {
 			-- jinja_lsp = {
 			-- 	filetypes = { "jinja", "html" },
 			-- },
-			promql_langserver = {
-				cmd = { "promql-langserver", "--stdio" },
-				filetypes = { "promql" },
-				-- Adjust root directory detection based on your repo structure
-				-- root_dir = lspconfig.util.root_pattern(".git", "prometheus.yml"),
-			},
+			-- promql = {
+			-- 	-- cmd = { "promql-langserver", "--config-file", vim.fn.expand("~/.config/nvim/promql-lsp.yaml") },
+			-- 	-- filetypes = { "yaml" }, -- Matches your original filetypes setting
+			-- 	-- root_dir = lspconfig.util.root_pattern(".git", "promql-lsp.yaml") or vim.fn.getcwd(),
+			-- 	-- settings = {},
+			-- 	-- = = == = == = == = = =
+			-- 	cmd = { "promql-langserver", "--stdio" },
+			-- 	-- filetypes = { "promql", "yaml" },
+			-- 	-- Adjust root directory detection based on your repo structure
+			-- 	-- root_dir = lspconfig.util.root_pattern(".git", "prometheus.yml"),
+			-- },
 			bashls = {
 				cmd = { "bash-language-server", "start" },
-				filetypes = { "sh", "zsh", "bash" },
+				filetypes = { "sh", "zsh", "bash", "zshrc" },
+				-- cmd_env = {
+				-- 	PATH = vim.fn.getenv("PATH"), -- Maps your shell's current $PATH directly to the server
+				-- },
+				init_options = {
+					bashls = {
+						bashIde = {
+							shellDialect = "bash",
+						},
+						-- Forces shellcheck to account for zsh compatibility extensions
+						-- shellcheckArguments = "-s bash -sol=zsh",
+						shellcheckArguments = "-s bash -sol=zsh",
+					},
+				},
 			},
 		},
 	},
@@ -282,6 +308,7 @@ return {
 				-- "jinja-lsp",
 				"docker-language-server",
 				"zls",
+				-- "tmux_ls",
 				-- "promql_langserver",
 			},
 		})
@@ -310,16 +337,15 @@ return {
 		lspconfig["vtsls"].setup({ capabilities = capabilities })
 		lspconfig["html"].setup({ capabilities = capabilities })
 		lspconfig["terraformls"].setup({ capabilities = capabilities })
-
 		lspconfig["awk_ls"].setup({ capabilities = capabilities })
 		lspconfig["zls"].setup({ capabilities = capabilities })
 		lspconfig["dockerls"].setup({ capabilities = capabilities })
-		-- lspconfig["hclls"].setup({ capabilities = capabilities })
-
+		-- lspconfig["hclls"].setup({ capabilities = capabilities }
+		-- lspconfig["tmux_ls"].setup({ capabilities = capabilities })
 		lspconfig["groovyls"].setup({ capabilities = capabilities })
 
 		-- lspconfig["jinja_lsp"].setup({ capabilities = capabilities })
-		-- lspconfig["promql-langserver"].setup({ capabilities = capabilities })
+		-- lspconfig["promql"].setup({ capabilities = capabilities })
 		-- lspconfig["cfn-lint"].setup({ capabilities = capabilities })
 
 		-- some additions if the lsp seem to be failing

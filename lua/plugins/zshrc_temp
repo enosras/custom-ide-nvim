@@ -56,7 +56,7 @@ source ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
 # now load zsh-syntax-highlighting plugin
 # ZSH_THEME="powerlevel10k/powerlevel10k"
 # NOTE IT IS VERY IMPORTANT TO LOAD STUFF BEFORE SOURCING OMZ
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions fzf fzf-tab zoxide ansible terraform kubectl aws gh rust tmux)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions fzf-tab zoxide ansible terraform kubectl aws gh rust tmux)
 source $ZSH/oh-my-zsh.sh
 
 # # NOTE: autocompletion for custom paths
@@ -335,7 +335,8 @@ zstyle ':fzf-tab:complete:*:*' fzf-preview '
       # General metadata block for non-file options
       printf "\e[1;34mCommand Context:\e[0m %s\n" "$fzf_meta_completion"
       printf "\e[1;32mSelected Item:\e[0m %s\n" "$word"
-      printf "\e[1;33mDescription:\e[0m %s\n" "$desc"
+      # printf "\e[1;33mDescription:\e[0m %s\n" "$desc"
+      printf "\e[1;33mDescription:\e[0m %s\n" "$(man $word)"
       ;;
   esac
 '
@@ -346,6 +347,7 @@ zstyle ':fzf-tab:complete:cat:*' fzf-preview 'bat --color=always --style=plain "
 zstyle ':fzf-tab:complete:less:*' fzf-preview 'bat --color=always --style=plain "$realpath"'
 zstyle ':fzf-tab:complete:nano:*' fzf-preview 'bat --color=always --style=plain "$realpath"'
 zstyle ':fzf-tab:complete:vim:*' fzf-preview 'bat --color=always --style=plain "$realpath"'
+zstyle ':fzf-tab:complete:glow:*' fzf-preview 'glow "$realpath"'
 
 # 
 # =========================================================================================
@@ -455,9 +457,9 @@ export FZF_DEFAULT_OPTS="
 # autocompletion for terraform
 complete -o nospace -C /usr/local/bin/terraform terraform
 
-# other opts --preview-label, --border-label , --multi --height 40%
+# other opts --preview-label, --border-label , --multi --height 40% --marker='✓'
 # export FZF_DEFAULT_OPTS="--border=rounded --margin=1 --color=border:blue,label:yellow --preview-label='man' --border-label='fuzzy'"
-export FZF_DEFAULT_OPTS="--preview-window=right:50%:wrap --height=45% --preview-label='wiki' --multi --reverse --border=rounded --margin=1 --color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
+export FZF_DEFAULT_OPTS="--preview-window=right:50%:wrap --height=45% --preview-label='wiki' --layout=reverse --border=rounded --margin=1 --color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
  --color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
  --color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
  --color=selected-bg:#45475A \
@@ -466,6 +468,10 @@ export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
 export FZF_TMUX_OPTS="-p 80%,60%"
+
+
+# ===  == = = = = == == = = == = = = = = = = = = = == = = =  == = = 
+# stuff below this line are not of any use fornow but to be saved for reference
 # === === = = = == == = = == = = = = = == == == == == === 
 # for mocha theme
 # --color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
@@ -475,23 +481,23 @@ export FZF_TMUX_OPTS="-p 80%,60%"
 # --color=border:#6C7086,label:#CDD6F4"
 
 
-fzf-doc() {
-  fzf --style full \
-    --preview '
-      # Sanitize the input token by wrapping it securely in quotes
-      local item="{}"
-      
-      if [ -z "$item" ]; then
-        echo "No input selection detected."
-      # Safely query if the first isolated word is an executable or shell alias
-      elif type "${item%% *}" >/dev/null 2>&1; then
-        man "${item%% *}" 2>/dev/null | col -bx || "${item%% *}" --help 2>&1
-      else
-        fzf-preview.sh "$item" 2>/dev/null || file --brief "$item" 2>/dev/null
-      fi
-    ' \
-    --bind 'focus:transform-header:file --brief {}'
-}
+# fzf-doc() {
+#   fzf --style full \
+#     --preview '
+#       # Sanitize the input token by wrapping it securely in quotes
+#       local item="{}"
+#
+#       if [ -z "$item" ]; then
+#         echo "No input selection detected."
+#       # Safely query if the first isolated word is an executable or shell alias
+#       elif type "${item%% *}" >/dev/null 2>&1; then
+#         man "${item%% *}" 2>/dev/null | col -bx || "${item%% *}" --help 2>&1
+#       else
+#         fzf-preview.sh "$item" 2>/dev/null || file --brief "$item" 2>/dev/null
+#       fi
+#     ' \
+#     --bind 'focus:transform-header:file --brief {}'
+# }
 
 # fzf-doc() {
 #   fzf --style full \
@@ -506,12 +512,12 @@ fzf-doc() {
 #     --bind 'focus:transform-header:file --brief {}'
 # }
 
-_fzf_compgen_path() {
-    fd --hidden --exclude .git . "$1"
-}
-
-_fzf_compgen_dir() {
-    fd --type=d --hidden --exclude .git . "$1"
-}
+# _fzf_compgen_path() {
+#     fd --hidden --exclude .git . "$1"
+# }
+#
+# _fzf_compgen_dir() {
+#     fd --type=d --hidden --exclude .git . "$1"
+# }
 
 source ~/fzf-git.sh/fzf-git.sh

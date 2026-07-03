@@ -1,0 +1,226 @@
+# Powerlevel10k instant prompt (keep near top)
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# ---------------------------
+# Environment / PATH / Local
+# ---------------------------
+export MANPATH="/usr/local/man:$MANPATH"
+export HISTFILE="$HOME/.zsh_history"
+HISTSIZE=1000000
+SAVEHIST=1000000
+
+export TERM=xterm-256color
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export DISPLAY=:2
+export REQUEST_CA_BUNDLE=/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/certifi/cacert.pem
+
+# User PATH additions (keep your custom paths)
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:/opt/homebrew/bin:/opt/homebrew/opt/ruby/bin:/Users/enos/go/bin:$PATH"
+
+# ---------------------------
+# History behavior
+# ---------------------------
+setopt append_history inc_append_history share_history
+setopt EXTENDED_HISTORY
+setopt HIST_IGNORE_SPACE HIST_IGNORE_DUPS HIST_REDUCE_BLANKS
+setopt autocd auto_param_slash no_case_glob no_case_match globdots extended_glob interactive_comments
+unsetopt prompt_sp
+
+# ---------------------------
+# Oh My Zsh + plugins + theme
+# ---------------------------
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+ENABLE_CORRECTION="true"
+# Plugins (keep yours)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions fzf-tab zoxide ansible terraform kubectl aws gh rust tmux)
+source $ZSH/oh-my-zsh.sh
+
+# Source syntax-highlighting if custom path
+source ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
+
+# Powerlevel10k config (if present)
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Enable bash completion compatibility where needed
+autoload -U +X bashcompinit && bashcompinit
+
+# ---------------------------
+# Runtime tool / manager initialization
+# ---------------------------
+# mise, cargo, tv, broot, thefuck
+eval "$(~/.local/bin/mise activate zsh)" 2>/dev/null || true
+source "$HOME/.cargo/env" 2>/dev/null || true
+eval "$(tv init zsh)" 2>/dev/null || true
+source /Users/enos/.config/broot/launcher/bash/br 2>/dev/null || true
+eval $(thefuck --alias) 2>/dev/null || true
+
+# Editor selection
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
+
+# ---------------------------
+# fzf + fzf-tab configuration (consolidated)
+# ---------------------------
+# Basic defaults and fd-based commands for better performance
+# export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+# export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+# export FZF_TMUX_OPTS="-p 80%,60%"
+#
+# export FZF_DEFAULT_OPTS="
+#   --preview-window=right:40%:wrap --height=60% --preview-label='wiki' --layout=reverse --border=rounded --margin=1 \
+#   --color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8,fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
+#   --color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8,selected-bg:#45475A,border:#6C7086,label:#CDD6F4
+# "
+#
+# # fzf-tab: consolidated zstyle rules and preview behavior
+# zstyle ':completion:*' menu no
+# zstyle ':completion:*:descriptions' format '[%d]'
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# zstyle ':fzf-tab:*' fzf-flags --border=rounded --style=full --color=fg:1,fg+:2
+# zstyle ':fzf-tab:*' use-fzf-default-opts yes
+# zstyle ':fzf-tab:*' switch-group 'left' 'right'
+#
+# # Generic preview logic used by fzf-tab completions
+# zstyle ':fzf-tab:complete:*:*' fzf-preview '
+#   case "$group" in
+#     *file*|*directory*|*path*)
+#       if [ -d "$realpath" ]; then
+#         eza --color=always --long --git --icons=always --no-user --no-time "$realpath" 2>/dev/null || eza --color=always --long "$realpath"
+#       elif [ -f "$realpath" ]; then
+#         bat --color=always --style=header,grid,numbers --line-range=:100 "$realpath" 2>/dev/null || cat "$realpath"
+#       fi
+#       ;;
+#     *)
+#       printf "\e[1;34mCommand Context:\e[0m %s\n" "$fzf_meta_completion"
+#       printf "\e[1;32mSelected Item:\e[0m %s\n" "$word"
+#       printf "\e[1;33mDescription:\e[0m %s\n" "$(man $word 2>/dev/null || echo \"No manual entry for $word\")"
+#       ;;
+#   esac
+# '
+#
+# # Command-specific preview overrides
+# zstyle ':fzf-tab:complete:cat:*' fzf-preview 'bat --color=always --style=plain "$realpath"'
+# zstyle ':fzf-tab:complete:less:*' fzf-preview 'bat --color=always --style=plain "$realpath"'
+# zstyle ':fzf-tab:complete:vim:*' fzf-preview 'bat --color=always --style=plain "$realpath"'
+# zstyle ':fzf-tab:complete:man:*' fzf-preview 'man $word 2>/dev/null | col -bx | bat --language=man --color=always --style=plain 2>/dev/null || echo "No manual entry"'
+#
+# # Optional: fd-based preview for cd
+# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always --long --tree --level=2 --icons=always "$realpath" 2>/dev/null || ls -la "$realpath"'
+#
+# # Allow sourcing fzf-git helper if available
+# source ~/fzf-git.sh/fzf-git.sh 2>/dev/null || true
+# source <(fzf --zsh) 2>/dev/null || true
+
+# -------------------------------------------------
+# ---------------------------
+# fzf + fzf-tab configuration (consolidated)
+# ---------------------------
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+export FZF_TMUX_OPTS="-p 90%,70%"
+
+export FZF_DEFAULT_OPTS="
+  --height=60% --preview-window='right:50%:hidden:wrap' --bind='ctrl-/:toggle-preview' --preview-label='preview' --layout=reverse --border=rounded --margin=1 \
+  --color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8,fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
+  --color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8,selected-bg:#45475A,border:#6C7086,label:#CDD6F4
+"
+
+# fzf-tab: consolidated zstyle rules
+
+# -- -- --- -- -- Force fzf-tab to request a 15-line dropdown menu and minimum size bounds
+# zstyle ':fzf-tab:*' fzf-flags --height=15 --min-height=10
+# Re-enable the list body and ensure a proper multi-line dropdown box
+zstyle ':fzf-tab:*' fzf-flags --preview-window=right:60% --height=15 --min-height=10
+zstyle ':completion:*' menu no
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':fzf-tab:*' fzf-flags --border=rounded --style=full --color=fg:1,fg+:2
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+zstyle ':fzf-tab:*' switch-group 'left' 'right'
+zstyle ':fzf-tab:*' fzf-pad 4
+
+# Generic preview logic
+zstyle ':fzf-tab:complete:*:*' fzf-preview '
+  case "$group" in
+    *file*|*directory*|*path*)
+      if [ -d "$realpath" ]; then
+        eza --color=always --long --git --icons=always --no-user --no-time "$realpath" 2>/dev/null || eza --color=always --long "$realpath"
+      elif [ -f "$realpath" ]; then
+        bat --color=always --style=header,grid,numbers --line-range=:100 "$realpath" 2>/dev/null || cat "$realpath"
+      fi
+      ;;
+    *)
+      printf "\e[1;34mCommand Context:\e[0m %s\n" "$fzf_meta_completion"
+      printf "\e[1;32mSelected Item:\e[0m %s\n" "$word"
+      printf "\e[1;33mDescription:\e[0m %s\n" "$(man $word 2>/dev/null || echo \"No manual entry for $word\")"
+      ;;
+  esac
+'
+
+# Command-specific previews
+## Force fzf-tab to give the preview exactly half the space, or put it on top/bottom
+zstyle ':fzf-tab:*' fzf-flags --height=60% --preview-window=right:50%
+
+zstyle ':fzf-tab:complete:cat:*' fzf-preview 'bat --color=always --style=plain "$realpath"'
+
+zstyle ':fzf-tab:complete:glow:*' fzf-preview 'bat --color=always --style=plain "$realpath"'
+zstyle ':fzf-tab:complete:less:*' fzf-preview 'bat --color=always --style=plain "$realpath"'
+zstyle ':fzf-tab:complete:vim:*' fzf-preview 'bat --color=always --style=plain "$realpath"'
+zstyle ':fzf-tab:complete:man:*' fzf-preview 'man $word 2>/dev/null | col -bx | bat --language=man --color=always --style=plain 2>/dev/null || echo "No manual entry"'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always --long --tree --level=2 --icons=always "${realpath:-.}" 2>/dev/null || ls -la "${realpath:-.}"'
+# Require Enter to accept (most common fix for your issue)
+#zstyle ':fzf-tab:*' accept-line enter
+
+# Don't auto-accept on single match
+# zstyle ':fzf-tab:*' accept-line partial-accept
+# Disable auto-accept entirely, always require explicit selection
+# zstyle ':fzf-tab:*' accept-line always
+# Optional helpers
+source ~/fzf-git.sh/fzf-git.sh 2>/dev/null || true
+source <(fzf --zsh) 2>/dev/null || true
+# --------------------------------------
+
+# ---------------------------
+# Completion helpers
+# ---------------------------
+# autoload compinit only when needed
+if ! typeset -f compinit >/dev/null 2>&1; then
+  autoload -Uz compinit && compinit
+fi
+
+# Terraform completion
+complete -o nospace -C /usr/local/bin/terraform terraform 2>/dev/null || true
+
+# ---------------------------
+# Custom functions & aliases
+# ---------------------------
+# Create and cd into a directory
+mkd() {
+  local file_path="$1"
+  mkdir -m 755 "$file_path" && cd "$file_path" || terminal-notifier -title "Error" -message "Doesn't work"
+}
+
+# Quick git commit
+# gc() {
+#   local message="$1"
+#   git commit -m "$message" || echo "git commit failed"
+# }
+
+# Helpful alias examples (moved to $ZSH_CUSTOM/aliases.zsh is recommended)
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# ---------------------------
+# Final notes
+# ---------------------------
+# Source Powerlevel10k, customizations, or any additional dotfiles below this line if present.
+# For any further tweaks (prompt layout, theme colors, etc.), run `p10k configure` or edit ~/.p10k.zsh.
