@@ -29,6 +29,7 @@ return {
 			require("oil").setup({
 				-- Force oil to render its metadata column layout out of the text buffer
 				columns = { "icon", "permissions", "size", "mtime" },
+				vim.keymap.set("n", "-", require("oil").open, { desc = "Open Parent Directory" }),
 			})
 
 			-- Safely inject statuscol-oil only inside Oil buffers without breaking LazyVim
@@ -73,6 +74,24 @@ return {
 		opts = {
 			-- your opts here ...
 		},
+	},
+	{
+		"nvim-lualine/lualine.nvim",
+		opts = function(_, opts)
+			-- Extract the Catppuccin palette dynamically
+			local colors = require("catppuccin.palettes").get_palette()
+
+			-- Force the default theme components to use purple/mauve accents
+			opts.options.theme = "catppuccin"
+
+			-- Custom section theme overrides
+			opts.options.component_separators = { left = "│", right = "│" }
+			opts.options.section_separators = { left = "", right = "" }
+
+			-- Redefine section colors to match your purple aesthetic
+			opts.sections.lualine_a = { { "mode", color = { bg = colors.mauve, fg = colors.crust, gui = "bold" } } }
+			opts.sections.lualine_b = { { "branch", color = { fg = colors.mauve } } }
+		end,
 	},
 }
 
