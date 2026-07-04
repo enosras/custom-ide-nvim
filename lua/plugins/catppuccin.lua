@@ -1,4 +1,5 @@
 return {
+
 	{
 		"catppuccin/nvim",
 		lazy = false,
@@ -61,7 +62,7 @@ return {
 					},
 				},
 				color_overrides = {},
-				custom_highlights = {},
+				-- custom_highlights = {},
 				default_integrations = true,
 				auto_integrations = true, -- false
 				integrations = {
@@ -91,84 +92,89 @@ return {
 						BlinkCmpDocBorder = { bg = colors.base, fg = colors.mauve },
 						BlinkCmpSignatureHelp = { bg = colors.mantle },
 						BlinkCmpSignatureHelpBorder = { fg = colors.base, bg = colors.mauve },
+						-- ---------------------------------------------------
 						-- float generic config for hi groups
-						FloatBorder = { fg = colors.mauve },
+						FloatBorder = { fg = colors.mauve, bg = colors.mantle },
 						FloatTitle = { fg = colors.lavender, bold = true },
-
+						-- ---------------------------------------------------
 						-- customs for fzf-lua
 						FzfLuaNormal = { bg = colors.mantle }, -- Background of the fzf box
 						FzfLuaBorder = { fg = colors.mauve, bg = colors.mantle }, -- The container border
 						FzfLuaTitle = { fg = colors.mauve, bg = colors.mantle }, -- Picker title (e.g. "Files")
 						FzfLuaBackdrop = { bg = "#000000", blend = 40 },
-
+						-- ---------------------------------------------------
 						-- lsp
 						LspInfoBorder = { fg = colors.mauve },
-
+						-- ---------------------------------------------------
 						-- Picker
 						SnacksPickerBorder = { fg = colors.mauve },
 						SnacksPickerTitle = { fg = colors.mauve, style = { "bold" } },
 						SnacksPickerPrompt = { fg = colors.mauve },
-
+						-- ---------------------------------------------------
 						-- Input
 						SnacksInputBorder = { fg = colors.mauve },
 						SnacksInputTitle = { fg = colors.mauve },
-
+						-- ---------------------------------------------------
 						-- Dashboard
 						SnacksDashboardHeader = { fg = colors.lavender },
 						SnacksDashboardFooter = { fg = colors.overlay1 },
-
+						-- ---------------------------------------------------
 						-- Notification
 						SnacksNotifierBorderInfo = { fg = colors.mauve },
 						SnacksNotifierBorderWarn = { fg = colors.flamingo },
 						SnacksNotifierBorderError = { fg = colors.mauve },
-
+						-- ---------------------------------------------------
 						-- Noice
 						NoiceCmdlinePopupBorder = { fg = colors.mauve },
 						NoiceCmdlinePopupTitle = { fg = colors.lavender, bold = true },
 						NoicePopupBorder = { fg = colors.mauve },
 						NoiceConfirmBorder = { fg = colors.lavender },
+						NoicePopupmenuBorder = { fg = colors.mauve, bg = colors.mantle },
 
+						-- ---------------------------------------------------
 						-- Telescope
 						TelescopeBorder = { fg = colors.mauve },
 						TelescopePromptBorder = { fg = colors.mauve },
 						TelescopeResultsBorder = { fg = colors.mauve },
 						TelescopePreviewBorder = { fg = colors.mauve },
 
+						-- ---------------------------------------------------
 						-- scroll bar
-						ScrollbarHandle = {
-							fg = colors.mauve,
-							bg = colors.mauve,
-						},
-						-- ScrollbarCursor = {
-						-- 	fg = colors.lavender,
-						-- 	bg = colors.lavender,
-						-- },
-						--
-						-- ScrollbarSearch = {
-						-- 	fg = colors.pink,
-						-- 	bg = colors.pink,
-						-- },
-						--
-						-- ScrollbarError = {
-						-- 	fg = colors.red,
-						-- 	bg = colors.red,
-						-- },
-						--
-						-- ScrollbarWarn = {
-						-- 	fg = colors.peach,
-						-- 	bg = colors.peach,
-						-- },
-						--
-						-- ScrollbarInfo = {
-						-- 	fg = colors.sky,
-						-- 	bg = colors.sky,
-						-- },
-						--
-						-- ScrollbarHint = {
-						-- 	fg = colors.teal,
-						-- 	bg = colors.teal,
-						-- },
+						ScrollbarHandle = { fg = colors.mauve, bg = colors.mauve },
+						ScrollbarCursor = { fg = colors.lavender, bg = colors.lavender },
 
+						ScrollbarSearch = { fg = colors.pink, bg = colors.pink },
+						--
+						ScrollbarError = { fg = colors.red, bg = colors.red },
+						--
+						ScrollbarWarn = { fg = colors.peach, bg = colors.peach },
+						--
+						ScrollbarInfo = { fg = colors.sky, bg = colors.sky },
+						--
+						ScrollbarHint = { fg = colors.teal, bg = colors.teal },
+						--
+						DiagnosticSignError = { fg = colors.red },
+						DiagnosticSignWarn = { fg = colors.peach }, -- "peach" fits "purple/orange" beautifully in Catppuccin
+						DiagnosticSignInfo = { fg = colors.blue },
+						DiagnosticSignHint = { fg = colors.green },
+						-- ----------------------------------------------------------
+						-- menu
+						NormalFloat = { fg = colors.mauve, bg = colors.mantle },
+						-- Targets the border of NvZone's context/popup menus directly
+						NvChMenuBorder = { fg = colors.mauve, bg = colors.mantle },
+						NvChMenuNormal = { bg = colors.mantle, fg = colors.text },
+
+						-- Fallbacks used by the Volt rendering layers
+						VoltBorder = { fg = colors.mauve, bg = colors.mantle },
+						VoltNormal = { bg = colors.mantle, fg = colors.text },
+
+						-- nvim forceful color for volt menu
+						PmenuBorder = { fg = colors.mauve, bg = colors.mantle },
+
+						-- --------------------------------------------------------
+						-- cursorline
+						CursorLine = { bg = colors.surface0 },
+						-- ----------------------------------------------------------
 						-- OPTION B: Make the entire box background purple (with dark text)
 						-- Remove the comment dashes below if you want a solid purple block:
 						-- NoiceCmdlinePopup = { bg = colors.mauve, fg = colors.crust },
