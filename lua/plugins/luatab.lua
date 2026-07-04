@@ -82,7 +82,7 @@ return {
 			local colors = require("catppuccin.palettes").get_palette()
 
 			-- Force the default theme components to use purple/mauve accents
-			opts.options.theme = "catppuccin"
+			-- opts.options.theme = "catppuccin"
 
 			-- Custom section theme overrides
 			opts.options.component_separators = { left = "│", right = "│" }

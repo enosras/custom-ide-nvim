@@ -47,6 +47,42 @@ return {
 			"3rd/image.nvim", -- optional, but recommended
 		},
 		lazy = false, -- neo-tree will lazily load itself
+		-- ----------------------------------------------------
+		-- additional tweaks with the neotree fs
+		-- ----------------------------------------------
+		-- opts = {
+		-- 	default_component_configs = {
+		-- 		-- UI Navigation Indicators
+		-- 		icon = {
+		-- 			folder_closed = "📁",
+		-- 			folder_open = "📂",
+		-- 			folder_empty = "📭",
+		-- 			default = "📄",
+		-- 			highlight = "NeoTreeFileIcon",
+		-- 		},
+		-- 		-- Arrow Indicators
+		-- 		indent = {
+		-- 			with_expanders = true,
+		-- 			expander_collapsed = "▶",
+		-- 			expander_expanded = "▼",
+		-- 			expander_highlight = "NeoTreeExpander",
+		-- 		},
+		-- 		-- Version Control / Git Status Icons
+		-- 		git_status = {
+		-- 			symbols = {
+		-- 				added = "",
+		-- 				modified = "",
+		-- 				deleted = "",
+		-- 				renamed = "➜",
+		-- 				untracked = "★",
+		-- 				ignored = "◌",
+		-- 				unstaged = "✗",
+		-- 				staged = "✓",
+		-- 				conflict = "💥",
+		-- 			},
+		-- 		},
+		-- 	},
+		-- },
 	},
 
 	-- vim.keymap.set("n", "<leader>nl", ":Neotree filesystem reveal left<CR>", {}),
