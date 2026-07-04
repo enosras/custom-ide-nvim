@@ -54,13 +54,13 @@ return {
 				-- your configuration options here
 				-- e.g.
 				-- handle = { color = "orange" },
-				marks = {
-					DiagnosticSignError = { color = "red" },
-					DiagnosticSignWarn = { color = "purple" },
-					DiagnosticSignInfo = { color = "blue" },
-					DiagnosticSignHint = { color = "green" },
-					-- ``
-				},
+				-- marks = {
+				-- 	DiagnosticSignError = { color = "red" },
+				-- 	DiagnosticSignWarn = { color = "purple" },
+				-- 	DiagnosticSignInfo = { color = "blue" },
+				-- 	DiagnosticSignHint = { color = "green" },
+				-- 	-- ``
+				-- },
 			})
 		end,
 	},
