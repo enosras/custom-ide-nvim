@@ -6,12 +6,16 @@ return {
 		dependencies = { "nvzone/volt", "nvim-neo-tree/neo-tree.nvim" },
 		-- opts = { border = true },
 		vim.keymap.set("n", "<leader>mn", function()
-			require("menu").open("default", { border = true })
+			require("menu").open("default", { border = "rounded" })
 		end, {}),
 
 		vim.keymap.set("n", "<leader>mm", function()
-			require("menu").open("neo-tree")
+			require("menu").open("neo-tree", { border = "rounded" })
 		end, {}),
+
+		-- vim.keymap.set("n", "<RightMouse>", function()
+		-- 	require("menu").open("default", { border = "rounded" }) -- Must explicitly allow a border type here
+		-- end, {}),
 
 		-- vim.api.nvim_create_autocmd("FileType", {
 		-- 	pattern = "neo-tree",

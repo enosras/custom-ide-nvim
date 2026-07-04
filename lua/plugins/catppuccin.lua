@@ -91,11 +91,12 @@ return {
 						BlinkCmpDoc = { bg = colors.base },
 						BlinkCmpDocBorder = { bg = colors.base, fg = colors.mauve },
 						BlinkCmpSignatureHelp = { bg = colors.mantle },
-						BlinkCmpSignatureHelpBorder = { fg = colors.base, bg = colors.mauve },
+						BlinkCmpSignatureHelpBorder = { fg = colors.mauve, bg = colors.mantle },
 						-- ---------------------------------------------------
 						-- float generic config for hi groups
 						FloatBorder = { fg = colors.mauve, bg = colors.mantle },
 						FloatTitle = { fg = colors.lavender, bold = true },
+						-- FloatFooter = { fg = colors.mauve, bg = colors.mantle },
 						-- ---------------------------------------------------
 						-- customs for fzf-lua
 						FzfLuaNormal = { bg = colors.mantle }, -- Background of the fzf box
@@ -128,8 +129,9 @@ return {
 						NoiceCmdlinePopupBorder = { fg = colors.mauve },
 						NoiceCmdlinePopupTitle = { fg = colors.lavender, bold = true },
 						NoicePopupBorder = { fg = colors.mauve },
-						NoiceConfirmBorder = { fg = colors.lavender },
+						NoiceConfirmBorder = { fg = colors.mauve },
 						NoicePopupmenuBorder = { fg = colors.mauve, bg = colors.mantle },
+						NoicePopupmenuSelected = { bg = colors.surface1, fg = colors.mauve, bold = true },
 
 						-- ---------------------------------------------------
 						-- Telescope
@@ -173,7 +175,8 @@ return {
 
 						-- --------------------------------------------------------
 						-- cursorline
-						CursorLine = { bg = colors.surface0 },
+						-- colors.surface0
+						CursorLine = { bg = colors.mantle },
 						-- ----------------------------------------------------------
 						-- OPTION B: Make the entire box background purple (with dark text)
 						-- Remove the comment dashes below if you want a solid purple block:
