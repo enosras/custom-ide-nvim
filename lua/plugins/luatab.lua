@@ -49,16 +49,15 @@ return {
 		-- config = function()
 		-- 	require("modes").setup()
 		-- end,
-
 		config = function()
 			require("modes").setup({
-				colors = {
-					-- Catppuccin Mocha hex color choices
-					insert = "#99b79a", -- Blue
-					visual = "#651fff", -- VIOLET
-					delete = "#f38ba8", -- Red
-					copy = "#f9e2af", -- Yellow
-				},
+				-- colors = {
+				-- 	-- Catppuccin Mocha hex color choices
+				-- 	insert = "#99b79a", -- Blue
+				-- 	visual = "#651fff", -- VIOLET
+				-- 	delete = "#f38ba8", -- Red
+				-- 	copy = "#f9e2af", -- Yellow
+				-- },
 				line_opacity = 0.15, -- Slight color glow on the current line background
 				set_cursor = true, -- Changes cursor color to match the mode
 				set_cursorline = true, -- Colors the line background
