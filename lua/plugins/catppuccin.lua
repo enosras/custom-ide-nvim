@@ -95,7 +95,7 @@ return {
 						-- ---------------------------------------------------
 						-- float generic config for hi groups
 						FloatBorder = { fg = colors.mauve, bg = colors.mantle },
-						FloatTitle = { fg = colors.lavender, bold = true },
+						FloatTitle = { fg = colors.mauve, bold = true },
 						-- FloatFooter = { fg = colors.mauve, bg = colors.mantle },
 						-- ---------------------------------------------------
 						-- customs for fzf-lua
@@ -172,33 +172,24 @@ return {
 
 						-- nvim forceful color for volt menu
 						PmenuBorder = { fg = colors.mauve, bg = colors.mantle },
+						-- -----------------------------------------------------------
+						-- luatab modes
+						-- Modes specific highlight groups
+						ModesCopy = { fg = colors.rosewater },
+						ModesDelete = { fg = colors.red },
+						ModesInsert = { fg = colors.green },
+						ModesNormal = { fg = colors.lavender },
+						ModesVisual = { fg = colors.pink },
+						ModesReplace = { fg = colors.maroon },
+
+						-- Optional: If you use CursorLine with modes
+						ModesInsertCursorLine = { bg = colors.mantle },
 
 						-- --------------------------------------------------------
 						-- cursorline
 						-- colors.surface0
 						CursorLine = { bg = colors.mantle },
 						-- ----------------------------------------------------------
-						-- OPTION B: Make the entire box background purple (with dark text)
-						-- Remove the comment dashes below if you want a solid purple block:
-						-- NoiceCmdlinePopup = { bg = colors.mauve, fg = colors.crust },
-						-- NoiceCmdlinePopupBorder = { bg = colors.mauve, fg = colors.mauve
-						-- If using mini.notify, you can explicitly map highlights here:
-						-- MiniNotifyBorder = { fg = colors.lavender },
-						-- MiniNotifyTitle = { fg = colors.mauve, bold = true },
-
-						-- If using nvim-notify, you can explicitly map highlights here:
-						-- NotifyInfoBorder = { fg = colors.mauve },
-						-- NotifyInfoIcon = { fg = colors.mauve },
-						-- MsgArea controls the text and background color of the command line box
-						-- MsgArea = {
-						-- 	bg = colors.mauve, -- Makes the background Catppuccin's purple
-						-- 	fg = colors.crust, -- Makes the text dark so it stays readable on purple
-						-- },
-						-- -- Optional: Change the visual separator line right above the command line
-						-- MsgSeparator = {
-						-- 	fg = colors.mantle,
-						-- 	bg = colors.mauve,
-						-- },
 					}
 				end,
 			})
