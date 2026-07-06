@@ -1,12 +1,17 @@
 vim.opt.termguicolors = true
 require("config.lazy")
-vim.cmd("set number")
+-- vim.cmd("set number")
+-- same as the one above but it is in vimscript
+vim.o.number = true
 vim.cmd("filetype plugin indent on")
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
+-- vim.opt.background = "light" -- light
+vim.opt.background = "dark"
+vim.cmd("set t_ut=")
 
 -- my additions
 vim.opt.softtabstop = 4
