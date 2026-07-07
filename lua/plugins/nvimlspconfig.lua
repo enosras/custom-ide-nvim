@@ -206,7 +206,29 @@ return {
 		end
 
 		-- 4. Global LSP keybindings
-		vim.keymap.set("n", "HH", vim.lsp.buf.hover, { desc = "LSP Hover Documentation" })
+		-- vim.keymap.set("n", "HH", vim.lsp.buf.hover, { desc = "LSP Hover Documentation" })
+		-- vim.keymap.set("n", "RR", vim.lsp.buf.references, { desc = "LSP References" })
+		-- vim.keymap.set("n", "DD", vim.lsp.buf.definition, { desc = "LSP Go to Definition" })
+		-- vim.keymap.set("n", "CA", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
+
+		-- for hover borders
+		-- 5. Force all global LSP popups to use Rounded Borders and clear warnings
+		local border_style = "rounded"
+
+		-- Apply matching rounded borders globally to Floating Diagnostics windows
+		vim.diagnostic.config({
+			float = {
+				border = border_style,
+				source = "always",
+			},
+		})
+
+		-- MODERN REPLACEMENT: Pass styling parameters directly into the execution keymaps
+		vim.keymap.set("n", "HH", function()
+			-- Automatically clears stacked windows natively before launching the new frame
+			vim.lsp.buf.hover({ border = border_style })
+		end, { desc = "LSP Hover Documentation (Rounded)" })
+
 		vim.keymap.set("n", "RR", vim.lsp.buf.references, { desc = "LSP References" })
 		vim.keymap.set("n", "DD", vim.lsp.buf.definition, { desc = "LSP Go to Definition" })
 		vim.keymap.set("n", "CA", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
