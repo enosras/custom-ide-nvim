@@ -132,6 +132,8 @@ return {
 						NoiceConfirmBorder = { fg = colors.mauve },
 						NoicePopupmenuBorder = { fg = colors.mauve, bg = colors.mantle },
 						NoicePopupmenuSelected = { bg = colors.surface1, fg = colors.mauve, bold = true },
+						NoiceHover = { bg = colors.mantle },
+						NoiceHoverBorder = { fg = colors.mauve, bg = colors.mantle },
 
 						-- ---------------------------------------------------
 						-- Telescope
@@ -165,12 +167,26 @@ return {
 						-- Targets the border of NvZone's context/popup menus directly
 						NvChMenuBorder = { fg = colors.mauve, bg = colors.mantle },
 						NvChMenuNormal = { bg = colors.mantle, fg = colors.text },
+						-- modern nv options
+						NvMenuBorder = { fg = colors.mauve, bg = colors.mantle },
+						NvMenuNormal = { bg = colors.mantle },
+						NvMenuSelected = { bg = colors.surface1, fg = colors.mauve, bold = true },
+
 						-- Fallbacks used by the Volt rendering layers
 						VoltBorder = { fg = colors.mauve, bg = colors.mantle },
 						VoltNormal = { bg = colors.mantle, fg = colors.text },
 
 						-- nvim forceful color for volt menu
-						PmenuBorder = { fg = colors.mauve, bg = colors.mantle },
+						-- ----------------------------------------------------------------
+						-- for the native right click mouse menu
+						Pmenu = { bg = colors.base, fg = colors.mauve },
+						-- flips the text color against a surface accent block when active
+						PmenuSel = { bg = colors.mantle, fg = colors.mauve, bold = true },
+						-- syles the right-click scrollbar matching track
+						PmenuSbar = { bg = colors.crust },
+						PmenuThumb = { bg = colors.base },
+						PmenuBorder = { fg = colors.mauve, bg = colors.base },
+
 						-- -----------------------------------------------------------
 						-- luatab modes
 						-- Modes specific highlight groups
@@ -190,6 +206,7 @@ return {
 						CursorLine = { bg = colors.mantle },
 						-- ----------------------------------------------------------
 						-- hover diagnostics for lsp
+						LspFloatWinNormal = { fg = colors.mauve, bg = colors.mantle },
 						LspFloatWinBorder = { fg = colors.mauve, bg = colors.mantle },
 						DiagnosticFloatingBorder = { fg = colors.mauve, bg = colors.mantle },
 					}
