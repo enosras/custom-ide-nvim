@@ -44,7 +44,8 @@ require("lazy").setup({
 	--vim.keymap.set('n', '<leader>f', builtin.live_grep, { desc = 'Telescope live grep' })},
 	-- Configure any other settings here. See the documentation for more details.
 	-- colorscheme that will be used when installing plugins.
-	install = { colorscheme = { "kanagawa" } },
+	-- install = { colorscheme = { "kanagawa" } },
+	install = { colorscheme = { "catpuccin" } },
 	-- automatically check for plugin updates
 	checker = { enabled = true },
 })

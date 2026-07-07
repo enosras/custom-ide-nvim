@@ -8,6 +8,7 @@ three
 - [x] list to do
 >[!Warning]
 >[!note]
+>[!Danger]
 # NOTE
 ```lisp
 ```
@@ -16,4 +17,9 @@ three
 >[!NOTE]
 ```lua
 
+* millionaire
+- millionaire
++ millionaire
+
+* **milli:**
 
