@@ -6,11 +6,11 @@ return {
 		dependencies = { "nvzone/volt", "nvim-neo-tree/neo-tree.nvim" },
 		-- opts = { border = true },
 		vim.keymap.set("n", "<leader>mn", function()
-			require("menu").open("default", { border = "rounded" })
+			require("menu").open("default", { border = true })
 		end, {}),
 
 		vim.keymap.set("n", "<leader>mm", function()
-			require("menu").open("neo-tree", { border = "rounded" })
+			require("menu").open("neo-tree", { border = true })
 		end, {}),
 
 		-- vim.keymap.set("n", "<RightMouse>", function()
