@@ -132,6 +132,8 @@ return {
 						NoiceConfirmBorder = { fg = colors.mauve },
 						NoicePopupmenuBorder = { fg = colors.mauve, bg = colors.mantle },
 						NoicePopupmenuSelected = { bg = colors.surface1, fg = colors.mauve, bold = true },
+						NoiceHover = { bg = colors.mantle },
+						NoiceHoverBorder = { fg = colors.mauve, bg = colors.mantle },
 
 						-- ---------------------------------------------------
 						-- Telescope
@@ -190,6 +192,7 @@ return {
 						CursorLine = { bg = colors.mantle },
 						-- ----------------------------------------------------------
 						-- hover diagnostics for lsp
+						LspFloatWinNormal = { fg = colors.mauve, bg = colors.mantle },
 						LspFloatWinBorder = { fg = colors.mauve, bg = colors.mantle },
 						DiagnosticFloatingBorder = { fg = colors.mauve, bg = colors.mantle },
 					}

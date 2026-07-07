@@ -17,6 +17,7 @@ vim.cmd("set t_ut=")
 vim.opt.softtabstop = 4
 -- vim.wo.conceallevel = 2
 vim.opt.conceallevel = 2
+vim.o.winborder = "rounded"
 -- vim.bo.conceallevel = 2
 -- vim.opt.termguicolors = true
 

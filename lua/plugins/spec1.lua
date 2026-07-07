@@ -84,5 +84,22 @@ return {
 	-- local plugins can also be configured with the dev option.
 	-- This will use {config.dev.path}/noice.nvim/ instead of fetching it from GitHub
 	-- With the dev option, you can easily switch between the local and installed version of a plugin
-	-- { "folke/noice.nvim", dev = true },
+	{
+		"folke/noice.nvim",
+		opts = {},
+		config = function()
+			require("noice").setup({
+				-- ... your existing configuration
+				presets = {
+					bottom_search = true,
+					command_palette = true,
+					long_message_to_split = true,
+					inc_rename = true,
+
+					--  FIX: Forces Noice to enable the border framework on hover windows
+					lsp_doc_border = true,
+				},
+			})
+		end,
+	},
 }

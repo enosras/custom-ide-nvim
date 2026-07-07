@@ -187,7 +187,7 @@ return {
 
 		-- 3. Loop dynamically through your entire server config list with validation guards
 		for server_name, server_config in pairs(opts.servers or {}) do
-			-- Strip away invalid wildcard fields and ensure lspconfig knows the server engine
+			-- Guard rail against empty or wild servers
 			if server_name ~= "*" and lspconfig[server_name] and type(lspconfig[server_name].setup) == "function" then
 				local dynamic_capabilities =
 					vim.tbl_deep_extend("force", {}, base_capabilities, server_config.capabilities or {})
@@ -219,16 +219,15 @@ return {
 		vim.diagnostic.config({
 			float = {
 				border = border_style,
-				source = "always",
+				source = true,
 			},
 		})
 
-		-- MODERN REPLACEMENT: Pass styling parameters directly into the execution keymaps
+		-- pass styling parameters directly into the execution keymaps
 		vim.keymap.set("n", "HH", function()
-			-- Automatically clears stacked windows natively before launching the new frame
+			-- automatically clears stacked windows natively before launching the new frame
 			vim.lsp.buf.hover({ border = border_style })
-		end, { desc = "LSP Hover Documentation (Rounded)" })
-
+		end, { desc = "LSP Hover Documentation" })
 		vim.keymap.set("n", "RR", vim.lsp.buf.references, { desc = "LSP References" })
 		vim.keymap.set("n", "DD", vim.lsp.buf.definition, { desc = "LSP Go to Definition" })
 		vim.keymap.set("n", "CA", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
