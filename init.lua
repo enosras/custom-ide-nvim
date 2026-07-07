@@ -15,6 +15,9 @@ vim.cmd("set t_ut=")
 
 -- my additions
 vim.opt.softtabstop = 4
+vim.wo.conceallevel = 2
+vim.opt.conceallevel = 2
+vim.bo.conceallevel = 2
 -- vim.opt.termguicolors = true
 
 --Had included in the plugin for neovim-lsp
