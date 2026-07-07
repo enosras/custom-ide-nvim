@@ -165,7 +165,6 @@ return {
 						-- Targets the border of NvZone's context/popup menus directly
 						NvChMenuBorder = { fg = colors.mauve, bg = colors.mantle },
 						NvChMenuNormal = { bg = colors.mantle, fg = colors.text },
-
 						-- Fallbacks used by the Volt rendering layers
 						VoltBorder = { fg = colors.mauve, bg = colors.mantle },
 						VoltNormal = { bg = colors.mantle, fg = colors.text },
@@ -190,6 +189,9 @@ return {
 						-- colors.surface0
 						CursorLine = { bg = colors.mantle },
 						-- ----------------------------------------------------------
+						-- hover diagnostics for lsp
+						LspFloatWinBorder = { fg = colors.mauve, bg = colors.mantle },
+						DiagnosticFloatingBorder = { fg = colors.mauve, bg = colors.mantle },
 					}
 				end,
 			})
