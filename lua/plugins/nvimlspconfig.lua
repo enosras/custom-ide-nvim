@@ -151,6 +151,7 @@ return {
 		require("mason").setup()
 		require("mason-tool-installer").setup({
 			ensure_installed = {
+				"ruff",
 				"hadolint", -- Added here to permanently squash the ENOENT error
 				"awk-language-server",
 				"terraform-ls",
