@@ -18,6 +18,16 @@ return {
 				},
 				lualine_b = {
 					{ "branch", color = { fg = colors.mauve, bg = colors.mantle } },
+					{
+						"diff",
+						symbols = { added = " ", modified = "   ", removed = " " }, -- Custom glyph icons
+						diff_color = {
+							-- Target the foreground (fg) color for each git state
+							added = { fg = "#cba6f7" }, -- Mauve
+							modified = { fg = "#94e2d5" }, -- Teal
+							removed = { fg = "#f5c2e7" }, -- Pink
+						},
+					},
 				},
 				lualine_c = {
 					-- the Language Icon (Python, Rust, etc.)
@@ -45,8 +55,27 @@ return {
 					{ "encoding", color = { fg = colors.overlay1 } },
 					-- Aerial component
 					-- { "aerial" },
+					{
+						function()
+							local msg = "󱦤"
+							local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
+							local clients = vim.lsp.get_clients({ bufnr = 0 })
+							if next(clients) == nil then
+								return msg
+							end
+							for _, client in ipairs(clients) do
+								local filetypes = client.config.filetypes
+								if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+									-- return client.name
+									return "" -- Returns things like 'omnisharp' or 'html'
+								end
+							end
+							return msg
+						end,
+						icon = "󰇻  :", -- Uses a cool Nerd Font network icon
+						color = { fg = colors.teal, gui = "bold" },
+					},
 				},
-
 				lualine_y = {
 					{
 						"aerial",
