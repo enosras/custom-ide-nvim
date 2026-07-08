@@ -209,6 +209,7 @@ return {
 						CursorLine = { fg = colors.mauve, bg = colors.mantle },
 						-- ----------------------------------------------------------
 						-- hover diagnostics for lsp
+						LspReferenceWrite = { fg = colors.mauve, bg = colors.base },
 						LspFloatWinNormal = { fg = colors.mauve, bg = colors.mantle },
 						LspFloatWinBorder = { fg = colors.mauve, bg = colors.mantle },
 						-- DiagnosticFloatingBorder = { fg = colors.mauve, bg = colors.mantle },
