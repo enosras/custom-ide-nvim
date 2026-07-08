@@ -37,9 +37,6 @@ export PATH="$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:/opt/homebrew/bin:/
 # ---------------------------
 # Oh My Zsh + plugins + theme
 # ---------------------------
-# to ensure sits on terminal path
-eval "$(/usr/local/bin/brew shellenv)"
-# eval "$(/opt/homebrew/bin/brew shellenv)"
 # Define all custom completion directories first
 fpath=(~/.zsh/completions $fpath)
 # Append Homebrew's directory if Homebrew exists
@@ -223,7 +220,7 @@ _fzf_comprun() {
       # {2} extracts the PID column from the default fzf completion output
       fzf "$@" \
         --preview 'ps -p {2} -o user,pid,ppid,%cpu,%mem,start,time,command -f' \
-        --preview-window 'down,40%,border-top' 
+        --preview-window 'down,40%,border-top'
         # --header 'Press CTRL-/ to toggle preview'
       ;;
     *)
@@ -285,6 +282,7 @@ setopt hist_save_no_dups
 setopt interactive_comments
 setopt dot_glob
 setopt extended_glob
+
 
 # ---------------------------
 # Final notes
