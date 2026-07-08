@@ -94,9 +94,9 @@ return {
 						BlinkCmpSignatureHelpBorder = { fg = colors.mauve, bg = colors.mantle },
 						-- ---------------------------------------------------
 						-- float generic config for hi groups
-						FloatBorder = { fg = colors.mauve, bg = colors.mantle },
-						FloatTitle = { fg = colors.mauve, bold = true },
-						-- FloatFooter = { fg = colors.mauve, bg = colors.mantle },
+						FloatBorder = { fg = colors.mauve, bg = colors.base },
+						FloatTitle = { fg = colors.mauve, bg = colors.base, bold = true },
+						FloatFooter = { fg = colors.mauve, bg = colors.base },
 						-- ---------------------------------------------------
 						-- customs for fzf-lua
 						FzfLuaNormal = { bg = colors.mantle }, -- Background of the fzf box
@@ -122,7 +122,7 @@ return {
 						-- ---------------------------------------------------
 						-- Notification
 						SnacksNotifierBorderInfo = { fg = colors.mauve },
-						SnacksNotifierBorderWarn = { fg = colors.flamingo },
+						SnacksNotifierBorderWarn = { fg = colors.mauve },
 						SnacksNotifierBorderError = { fg = colors.mauve },
 						-- ---------------------------------------------------
 						-- Noice
@@ -156,21 +156,24 @@ return {
 						ScrollbarInfo = { fg = colors.sky, bg = colors.sky },
 						--
 						ScrollbarHint = { fg = colors.teal, bg = colors.teal },
-						--
+						-- ------------------------------------------------------
+						-- Diagnostics
 						DiagnosticSignError = { fg = colors.red },
-						DiagnosticSignWarn = { fg = colors.peach }, -- "peach" fits "purple/orange" beautifully in Catppuccin
+						DiagnosticSignWarn = { fg = colors.peach }, -- "peach" fit mns "purple/orange" beautifully in Catppuccin
+						DiagnosticFloatWarn = { fg = colors.mauve, bg = colors.base },
 						DiagnosticSignInfo = { fg = colors.blue },
 						DiagnosticSignHint = { fg = colors.green },
+						DiagnosticFloatingBorder = { fg = colors.mauve, bg = colors.base },
 						-- ----------------------------------------------------------
 						-- menu
-						NormalFloat = { fg = colors.mauve, bg = colors.mantle },
+						NormalFloat = { fg = colors.mauve, bg = colors.base },
 						-- Targets the border of NvZone's context/popup menus directly
-						NvChMenuBorder = { fg = colors.mauve, bg = colors.mantle },
-						NvChMenuNormal = { bg = colors.mantle, fg = colors.text },
-						-- modern nv options
-						NvMenuBorder = { fg = colors.mauve, bg = colors.mantle },
-						NvMenuNormal = { bg = colors.mantle },
-						NvMenuSelected = { bg = colors.surface1, fg = colors.mauve, bold = true },
+						-- NvChMenuBorder = { fg = colors.mauve, bg = colors.mantle },
+						-- NvChMenuNormal = { bg = colors.mantle, fg = colors.text },
+						-- -- modern nv options
+						-- NvMenuBorder = { fg = colors.mauve, bg = colors.mantle },
+						-- NvMenuNormal = { bg = colors.mantle },
+						-- NvMenuSelected = { bg = colors.surface1, fg = colors.mauve, bold = true },
 
 						-- Fallbacks used by the Volt rendering layers
 						VoltBorder = { fg = colors.mauve, bg = colors.mantle },
@@ -179,11 +182,11 @@ return {
 						-- nvim forceful color for volt menu
 						-- ----------------------------------------------------------------
 						-- for the native right click mouse menu
-						Pmenu = { bg = colors.base, fg = colors.mauve },
+						Pmenu = { bg = colors.base, fg = colors.teal },
 						-- flips the text color against a surface accent block when active
 						PmenuSel = { bg = colors.mantle, fg = colors.mauve, bold = true },
 						-- syles the right-click scrollbar matching track
-						PmenuSbar = { bg = colors.crust },
+						PmenuSbar = { bg = colors.mauve },
 						PmenuThumb = { bg = colors.base },
 						PmenuBorder = { fg = colors.mauve, bg = colors.base },
 
@@ -197,18 +200,43 @@ return {
 						ModesVisual = { fg = colors.pink },
 						ModesReplace = { fg = colors.maroon },
 
-						-- Optional: If you use CursorLine with modes
+						-- CursorLine with modes
 						ModesInsertCursorLine = { bg = colors.mantle },
 
 						-- --------------------------------------------------------
 						-- cursorline
 						-- colors.surface0
-						CursorLine = { bg = colors.mantle },
+						CursorLine = { fg = colors.mauve, bg = colors.mantle },
 						-- ----------------------------------------------------------
 						-- hover diagnostics for lsp
 						LspFloatWinNormal = { fg = colors.mauve, bg = colors.mantle },
 						LspFloatWinBorder = { fg = colors.mauve, bg = colors.mantle },
-						DiagnosticFloatingBorder = { fg = colors.mauve, bg = colors.mantle },
+						-- DiagnosticFloatingBorder = { fg = colors.mauve, bg = colors.mantle },
+						-- --------------------------------------------------------
+						-- virtual column
+						VirtColumn = { bg = colors.base, fg = colors.teal },
+						GitSignsAdd = {
+							fg = colors.teal,
+							bg = colors.base,
+						},
+
+						GitSignsChange = {
+							fg = colors.mauve,
+							bg = colors.base,
+						},
+
+						GitSignsDelete = {
+							fg = colors.pink,
+							bg = colors.base,
+						},
+						-- ------------------------------------------
+						-- neo tree
+						NeoTreeNormal = {
+							bg = colors.base,
+						},
+						NeoTreeNormalNC = {
+							bg = colors.base,
+						},
 					}
 				end,
 			})

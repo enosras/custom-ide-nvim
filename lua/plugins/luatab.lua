@@ -4,7 +4,7 @@ return {
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 			"stevearc/oil.nvim",
-			-- "luukvbaal/statuscol.nvim",
+			"luukvbaal/statuscol.nvim",
 		},
 		opts = {},
 		config = function()

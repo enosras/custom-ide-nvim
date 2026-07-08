@@ -2,8 +2,50 @@
 
 return {
 	-- -- use this to pair with oil and statuscol-oil
-	-- {
-	-- 	"luukvbaal/statuscol.nvim",
+	{
+		"luukvbaal/statuscol.nvim",
+		event = "VeryLazy",
+
+		opts = function()
+			local builtin = require("statuscol.builtin")
+
+			return {
+				relculright = true,
+
+				segments = {
+					-- Diagnostics
+					{
+						sign = {
+							namespace = { "diagnostic/signs" },
+							maxwidth = 1,
+							auto = true,
+						},
+					},
+
+					-- GitSigns
+					{
+						sign = {
+							namespace = { "gitsigns" },
+							maxwidth = 1,
+							auto = true,
+						},
+					},
+
+					-- Fold column
+					{
+						text = { builtin.foldfunc },
+						click = "v:lua.ScFa",
+					},
+
+					-- Line numbers
+					{
+						text = { builtin.lnumfunc, " " },
+						click = "v:lua.ScLa",
+					},
+				},
+			}
+		end,
+	},
 	-- 	config = function()
 	-- 		-- local builtin = require("statuscol.builtin")
 	-- 		require("statuscol").setup(
