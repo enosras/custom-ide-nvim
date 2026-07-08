@@ -1,6 +1,7 @@
 return {
 	"norcalli/nvim-terminal.lua",
-	config = function()
-		require("terminal").setup()
+	opts = {},
+	config = function(_, opts)
+		require("terminal").setup(opts)
 	end,
 }

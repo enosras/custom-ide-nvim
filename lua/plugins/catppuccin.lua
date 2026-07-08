@@ -111,6 +111,8 @@ return {
 						SnacksPickerBorder = { fg = colors.mauve },
 						SnacksPickerTitle = { fg = colors.mauve, style = { "bold" } },
 						SnacksPickerPrompt = { fg = colors.mauve },
+
+						SnacksPickerDirectory = { fg = colors.mauve },
 						-- ---------------------------------------------------
 						-- Input
 						SnacksInputBorder = { fg = colors.mauve },
