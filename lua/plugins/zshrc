@@ -25,6 +25,7 @@ SAVEHIST=1000000
 setopt HIST_IGNORE_SPACE     # Zsh equivalent to HISTCONTROL=ignorespace
 setopt HIST_IGNORE_DUPS      # Zsh equivalent to HISTCONTROL=ignoredups
 setopt HIST_REDUCE_BLANKS    # Removes superfluous spaces
+# FIX
 
 # Oh My Zsh Boot Overrides
 zstyle ':omz:update' mode reminder     # Just remind me to update when it's time

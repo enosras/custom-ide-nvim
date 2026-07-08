@@ -23,7 +23,6 @@ vim.o.pumborder = "single"
 -- vim.opt.termguicolors = true
 
 -- Disables the plain native right-click popup menu entirely
--- vim.cmd([[:amenu disable PopUp]])
 -- vim.cmd.aunmenu("PopUp")
 
 -- Clear out the built-in popup menu event handler group
@@ -42,13 +41,13 @@ menu_module.open = function(menu_type, opts)
 	-- Execute the core window generation first
 	original_menu_open(menu_type, opts)
 
-	-- CRITICAL FOCUS PATCH: Instantly scrub the window canvas before the terminal renders it
+	-- FIX: Instantly scrub the window canvas before the terminal renders it
 	local colors = require("catppuccin.palettes").get_palette("mocha") -- Change to your active variant (e.g., macchiato)
 
 	-- Force absolute opacity and color lock across the plugin's layout nodes
-	vim.api.nvim_set_hl(0, "NvMenuNormal", { bg = colors.base, fg = colors.mauve, blend = 0 })
+	vim.api.nvim_set_hl(0, "NvMenuNormal", { bg = colors.base, fg = colors.teal, blend = 0 })
 	vim.api.nvim_set_hl(0, "NvMenuBorder", { fg = colors.mauve, bg = colors.base, blend = 0 })
-	vim.api.nvim_set_hl(0, "NvMenuSelected", { bg = colors.mantle, fg = colors.mauve, bold = true })
+	vim.api.nvim_set_hl(0, "NvMenuSelected", { bg = colors.mantle, fg = colors.teal, bold = true })
 
 	-- Force the active menu window layout options directly
 	local current_win = vim.api.nvim_get_current_win()

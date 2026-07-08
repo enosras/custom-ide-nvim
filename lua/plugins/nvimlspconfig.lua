@@ -12,6 +12,7 @@ return {
 	opts = {
 		format_notify = true,
 		inlay_hints = { enabled = false },
+		-- beginning for what i can only call a dictionary
 		servers = {
 			vtsls = {
 				filetypes = {
@@ -94,6 +95,7 @@ return {
 				end,
 				settings = {
 					redhat = { telemetry = { enabled = false } },
+					-- 	char = { "" },
 					yaml = {
 						keyOrdering = false,
 						format = { enable = true },
@@ -147,7 +149,7 @@ return {
 		},
 	},
 	config = function(_, opts)
-		-- 1. Initialize Mason package tools cleanly
+		-- Initialize Mason package tools
 		require("mason").setup()
 		require("mason-tool-installer").setup({
 			ensure_installed = {
@@ -177,7 +179,7 @@ return {
 
 		local lspconfig = require("lspconfig")
 
-		-- 2. Construct global fallback capabilities with Line Folding support
+		-- Construct global fallback capabilities with Line Folding support
 		local base_capabilities = vim.lsp.protocol.make_client_capabilities()
 		base_capabilities.textDocument = base_capabilities.textDocument or {}
 		base_capabilities.textDocument.foldingRange = {
@@ -185,7 +187,7 @@ return {
 			lineFoldingOnly = true,
 		}
 
-		-- 3. Loop dynamically through your entire server config list with validation guards
+		-- Loop dynamically through your entire server config list with validation guards
 		for server_name, server_config in pairs(opts.servers or {}) do
 			-- Guard rail against empty or wild servers
 			if server_name ~= "*" and lspconfig[server_name] and type(lspconfig[server_name].setup) == "function" then
