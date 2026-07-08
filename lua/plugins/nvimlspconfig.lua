@@ -138,7 +138,7 @@ return {
 			},
 			bashls = {
 				cmd = { "bash-language-server", "start" },
-				filetypes = { "sh", "zsh", "bash", "zshrc" },
+				filetypes = { "sh", "zsh", "bash", "zshrc", "zshenv" },
 				init_options = {
 					bashls = {
 						bashIde = { shellDialect = "bash" },

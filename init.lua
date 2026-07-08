@@ -22,7 +22,7 @@ vim.o.pumborder = "single"
 -- vim.bo.conceallevel = 2
 -- vim.opt.termguicolors = true
 
--- Disables the plain native right-click popup menu entirely
+-- Disables the plain native right-click popup menu entirel ey
 -- vim.cmd.aunmenu("PopUp")
 
 -- Clear out the built-in popup menu event handler group

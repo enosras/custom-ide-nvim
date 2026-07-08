@@ -74,52 +74,56 @@ return {
 			-- your opts here ...
 		},
 	},
-	{
-		"nvim-lualine/lualine.nvim",
-		sections = {
-			lualine_x = { "aerial" },
-
-			-- Or you can customize it
-			lualine_y = {
-				{
-					"aerial",
-					-- The separator to be used to separate symbols in status line.
-					sep = " ) ",
-
-					-- The number of symbols to render top-down. In order to render only 'N' last
-					-- symbols, negative numbers may be supplied. For instance, 'depth = -1' can
-					-- be used in order to render only current symbol.
-					depth = nil,
-
-					-- When 'dense' mode is on, icons are not rendered near their symbols. Only
-					-- a single icon that represents the kind of current symbol is rendered at
-					-- the beginning of status line.
-					dense = false,
-
-					-- The separator to be used to separate symbols in dense mode.
-					dense_sep = ".",
-
-					-- Color the symbol icons.
-					colored = true,
-				},
-			},
-		},
-		opts = function(_, opts)
-			-- Extract the Catppuccin palette dynamically
-			local colors = require("catppuccin.palettes").get_palette()
-
-			-- Force the default theme components to use purple/mauve accents
-			-- opts.options.theme = "catppuccin"
-
-			-- Custom section theme overrides
-			opts.options.component_separators = { left = "│", right = "│" }
-			opts.options.section_separators = { left = "", right = "" }
-
-			-- Redefine section colors to match your purple aesthetic
-			opts.sections.lualine_a = { { "mode", color = { bg = colors.mauve, fg = colors.crust, gui = "bold" } } }
-			opts.sections.lualine_b = { { "branch", color = { fg = colors.mauve } } }
-		end,
-	},
+	-- {
+	-- 	"nvim-lualine/lualine.nvim",
+	-- 	-- opts = {
+	-- 	-- theme = "catpuccin",
+	-- 	sections = {
+	-- 		lualine_x = { "aerial" },
+	--
+	-- 		-- Or you can customize it
+	-- 		lualine_y = {
+	-- 			{
+	-- 				"aerial",
+	-- 				-- The separator to be used to separate symbols in status line.
+	-- 				sep = " ) ",
+	--
+	-- 				-- The number of symbols to render top-down. In order to render only 'N' last
+	-- 				-- symbols, negative numbers may be supplied. For instance, 'depth = -1' can
+	-- 				-- be used in order to render only current symbol.
+	-- 				depth = nil,
+	--
+	-- 				-- When 'dense' mode is on, icons are not rendered near their symbols. Only
+	-- 				-- a single icon that represents the kind of current symbol is rendered at
+	-- 				-- the beginning of status line.
+	-- 				dense = false,
+	--
+	-- 				-- The separator to be used to separate symbols in dense mode.
+	-- 				dense_sep = ".",
+	--
+	-- 				-- Color the symbol icons.
+	-- 				colored = true,
+	-- 			},
+	-- 		},
+	-- 	},
+	-- 	-- },
+	-- 	opts = function(_, opts)
+	-- 		-- require("lualine").setup(opts)
+	-- 		-- Extract the Catppuccin palette dynamically
+	-- 		local colors = require("catppuccin.palettes").get_palette()
+	--
+	-- 		-- Force the default theme components to use purple/mauve accents
+	-- 		-- opts.options.theme = "catppuccin"
+	--
+	-- 		-- Custom section theme overrides
+	-- 		opts.options.component_separators = { left = "│", right = "│" }
+	-- 		opts.options.section_separators = { left = "", right = "" }
+	--
+	-- 		-- Redefine section colors to match your purple aesthetic
+	-- 		opts.sections.lualine_a = { { "mode", color = { bg = colors.mauve, fg = colors.crust, gui = "bold" } } }
+	-- 		opts.sections.lualine_b = { { "branch", color = { fg = colors.mauve } } }
+	-- 	end,
+	-- },
 }
 
 -- { "akinsho/bufferline.nvim", version = "*", dependencies = "nvim-tree/nvim-web-devicons" },
